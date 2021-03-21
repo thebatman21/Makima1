@@ -638,7 +638,7 @@ def skick(update, context):
     user = update.effective_user
     message = update.effective_message
     log_message = ""
-   bot, args = context.bot, context.args
+    bot, args = context.bot, context.args
     user_id, reason = extract_user_and_text(message, args)
     update.effective_message.delete()
     if not user_id:

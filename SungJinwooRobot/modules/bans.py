@@ -547,7 +547,7 @@ PUNCHME_HANDLER = DisableAbleCommandHandler(["punchme", "kickme"], punchme, filt
 DBAN_HANDLER = CommandHandler("dban", dban)
 
 dispatcher.add_handler(BAN_HANDLER)
-dispatcher.add_handler(STEMPBAN_HANDLER)
+dispatcher.add_handler(TEMPBAN_HANDLER)
 dispatcher.add_handler(BANME_HANDLER)
 dispatcher.add_handler(DBAN_HANDLER)
 dispatcher.add_handler(PUNCH_HANDLER)
@@ -563,4 +563,6 @@ __handlers__ = [
     UNBAN_HANDLER,
     ROAR_HANDLER,
     PUNCHME_HANDLER,
+    BANME_HANDLER,
+    DBAN_HANDLER
 ]

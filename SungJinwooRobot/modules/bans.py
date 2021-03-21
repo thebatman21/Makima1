@@ -234,6 +234,91 @@ def dban(update: Update, context: CallbackContext) -> str:
 
     return ""
 
+############ DKICK #############
+
+@run_async
+@bot_admin
+@can_restrict
+@user_admin
+@loggable
+def dkick(update, context):
+    chat = update.effective_chat  # type: Optional[Chat]
+    user = update.effective_user  # type: Optional[User]
+    message = update.effective_message  # type: Optional[Message]
+    args = context.args
+    bot = context.bot
+
+    #if user_can_ban(chat, user, context.bot.id) is False:
+    #    message.reply_text("You don't have enough rights to kick users!")
+    #    return ""
+
+    if message.reply_to_message:
+        user = update.effective_user  # type: Optional[User]
+        chat = update.effective_chat  # type: Optional[Chat]
+        if can_delete(chat, bot.id):
+            update.effective_message.reply_to_message.delete()
+    else:
+        message.reply_text("You have to reply to a message to delete it and kick the user.")
+        return ""
+
+    user_id, reason = extract_user_and_text(message, args)
+
+    try:
+        member = chat.get_member(user_id)
+    except BadRequest as excp:
+        if excp.message == "User not found":
+            message.reply_text("I can't seem to find this user")
+            return ""
+        else:
+            raise
+
+    if is_user_ban_protected(chat, user_id):
+        message.reply_text("Yeahh... let's start kicking admins?")
+        return ""
+
+    if user_id == context.bot.id:
+        message.reply_text("Yeahhh I'm not gonna do that")
+        return ""
+    
+    if user_id == 777000 or user_id == 1087968824:
+        message.reply_text(str(user_id) + " is an account reserved for telegram, I cannot kick it!")
+        return ""  
+
+    res = chat.unban_member(user_id)  # unban on current user = kick
+    if res:
+        
+        context.bot.sendMessage(
+            chat.id,
+            "Admin {} has successfully kicked {} in <b>{}</b>!".format(
+            mention_html(user.id, user.first_name),
+            mention_html(member.user.id, member.user.first_name),
+            html.escape(chat.title)),
+            parse_mode=ParseMode.HTML,
+        )
+        log = (
+            "<b>{}:</b>"
+            "\n#KICKED"
+            "\n<b>Admin:</b> {}"
+            "\n<b>User:</b> {} (<code>{}</code>)".format(
+                html.escape(chat.title),
+                mention_html(user.id, user.first_name),
+                mention_html(member.user.id, member.user.first_name),
+                member.user.id,
+            )
+        )
+        if reason:
+            log += "\n<b>Reason:</b> {}".format(reason)
+
+        return log
+
+    else:
+        message.reply_text("Get Out!.")
+
+    return ""
+
+
+############ DKICK #############
+
 @run_async
 @connection_status
 @bot_admin

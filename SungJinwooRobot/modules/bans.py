@@ -145,7 +145,6 @@ def ban(update: Update, context: CallbackContext) -> str:
 @can_restrict
 @user_admin
 @loggable
-@typing_action
 def dban(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
@@ -403,7 +402,6 @@ def punchme(update: Update, context: CallbackContext):
 @bot_admin
 @can_restrict
 @loggable
-@typing_action
 def banme(update, context):
     user_id = update.effective_message.from_user.id
     chat = update.effective_chat

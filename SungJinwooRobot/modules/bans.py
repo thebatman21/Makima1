@@ -550,8 +550,8 @@ DBAN_HANDLER = CommandHandler("dban", dban)
 
 dispatcher.add_handler(BAN_HANDLER)
 dispatcher.add_handler(STEMPBAN_HANDLER)
-dispatcher.add_handler(SKICK_HANDLER
-dispatcher.add_handler(TEMPBAN_HANDLER)
+dispatcher.add_handler(BANME_HANDLER)
+dispatcher.add_handler(DBAN_HANDLER)
 dispatcher.add_handler(PUNCH_HANDLER)
 dispatcher.add_handler(UNBAN_HANDLER)
 dispatcher.add_handler(ROAR_HANDLER)

@@ -153,7 +153,7 @@ def dban(update: Update, context: CallbackContext) -> str:
     bot = context.bot
 
 
-    if user_can_ban (chat, user, bot.id) is False:
+    if user_can_ban(chat, user, context.bot.id) is False:
         message.reply_text("You don't have enough rights to ban users!")
         return ""
 

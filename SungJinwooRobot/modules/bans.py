@@ -404,7 +404,7 @@ def stemp_ban(update, context):
         message.reply_text("You haven't specified a time to ban this user for!")
         return log_message
 
-   split_reason = reason.split(None, 1)
+    split_reason = reason.split(None, 1)
 
     time_val = split_reason[0].lower()
     if len(split_reason) > 1:

@@ -145,7 +145,7 @@ def ban(update: Update, context: CallbackContext) -> str:
 @can_restrict
 @user_admin
 @loggable
-def dban(update, context):
+def dban(update: Update, context: CallbackContext) -> str:
     chat = update.effective_chat  # type: Optional[Chat]
     user = update.effective_user  # type: Optional[User]
     message = update.effective_message  # type: Optional[Message]
@@ -153,7 +153,7 @@ def dban(update, context):
     bot = context.bot
 
 
-    if user_can_ban (chat, user, context.bot.id) is False:
+    if user_can_ban (chat, user, bot.id) is False:
         message.reply_text("You don't have enough rights to ban users!")
         return ""
 
@@ -530,7 +530,7 @@ __help__ = """
  • `/ban <userhandle>`*:* bans a user. (via handle, or reply)
  • `/sban <userhandle>`*:* Silently ban a user. Deletes command, Replied message and doesn't reply. (via handle, or reply)
  • `/tban <userhandle> x(m/h/d)`*:* bans a user for `x` time. (via handle, or reply). `m` = `minutes`, `h` = `hours`, `d` = `days`.
- •  /dban <userhandle>: Bans a user and also deletes the message sent by banned user.
+ • `/dban` <userhandle>: Bans a user and also deletes the message sent by banned user.
  • `/unban <userhandle>`*:* unbans a user. (via handle, or reply)
  • `/kick <userhandle>`*:* Kicks a user out of the group, (via handle, or reply)
  • `/punch <userhandle>`*:* Punches a user out of the group, (via handle, or reply)

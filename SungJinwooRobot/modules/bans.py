@@ -630,11 +630,13 @@ UNBAN_HANDLER = CommandHandler("unban", unban)
 ROAR_HANDLER = CommandHandler("roar", selfunban)
 PUNCHME_HANDLER = DisableAbleCommandHandler(["punchme", "kickme"], punchme, filters=Filters.group)
 DBAN_HANDLER = CommandHandler("dban", dban)
+DKICK_HANDLER = CommandHandler("dkick", dkick)
 
 dispatcher.add_handler(BAN_HANDLER)
 dispatcher.add_handler(TEMPBAN_HANDLER)
 dispatcher.add_handler(BANME_HANDLER)
 dispatcher.add_handler(DBAN_HANDLER)
+dispatcher.add_handler(DKICK_HANDLER)
 dispatcher.add_handler(PUNCH_HANDLER)
 dispatcher.add_handler(UNBAN_HANDLER)
 dispatcher.add_handler(ROAR_HANDLER)
@@ -649,5 +651,6 @@ __handlers__ = [
     ROAR_HANDLER,
     PUNCHME_HANDLER,
     BANME_HANDLER,
-    DBAN_HANDLER
+    DBAN_HANDLER,
+    DKICK_HANDLER
 ]

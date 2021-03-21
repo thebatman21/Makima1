@@ -428,7 +428,7 @@ def stemp_ban(update, context):
 
     try:
         chat.kick_member(user_id, until_date=bantime)
-         bot.send_sticker(chat.id, BAN_STICKER)  # banhammer marie sticker
+        bot.send_sticker(chat.id, BAN_STICKER)  #banhammer marie sticker
         return log
 
     except BadRequest as excp:

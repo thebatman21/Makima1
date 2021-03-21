@@ -153,9 +153,9 @@ def dban(update: Update, context: CallbackContext) -> str:
     bot = context.bot
 
 
-    if user_can_ban(chat, user, context.bot.id) is False:
-        message.reply_text("You don't have enough rights to ban users!")
-        return ""
+    #if user_can_ban(chat, user, context.bot.id) is False:
+    #    message.reply_text("You don't have enough rights to ban users!")
+    #    return ""
 
     if message.reply_to_message:
         user = update.effective_user  # type: Optional[User]

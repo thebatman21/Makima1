@@ -174,7 +174,7 @@ def warn_user(update: Update, context: CallbackContext) -> str:
     if message.text.startswith("/d") and message.reply_to_message:
         message.reply_to_message.delete()
         return warn(
-                chat.get_member(user_id).user, chat, reason, message, warner)
+            chat.get_member(user_id).user, chat, reason, message, warner)
     if user_id:
         if message.reply_to_message and message.reply_to_message.from_user.id == user_id:
             return warn(message.reply_to_message.from_user, chat, reason,

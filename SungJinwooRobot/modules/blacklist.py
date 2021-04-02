@@ -369,6 +369,10 @@ def del_blacklist(update, context):
                         message,
                         update.effective_user,
                     )
+                    bot.sendMessage(
+                        chat.id,
+                        f"Using blacklisted trigger: {trigger}"
+                    )
                     return
                 elif getmode == 3:
                     message.delete()

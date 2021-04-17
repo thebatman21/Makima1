@@ -204,8 +204,8 @@ def start(update: Update, context: CallbackContext):
                              text="🚨 Support 🚨",
                              url=f"https://t.me/{SUPPORT_CHAT}"),
                          InlineKeyboardButton(
-                             text="🔗 Source 🔗",
-                             url="https://github.com/Pirate-Hunter/Sung-Jinwoo")
+                             text="🗡️ Solo Leveling 🗡️",
+                             url="https://t.me/Solo_Leveling_Webtoon")
                      ]]))
                      
                     

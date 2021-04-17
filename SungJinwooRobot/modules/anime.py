@@ -12,7 +12,7 @@ from telegram.utils.helpers import mention_html
 from SungJinwooRobot.modules.helper_funcs.alternate import typing_action
 from SungJinwooRobot import dispatcher
 from SungJinwooRobot.modules.disable import DisableAbleCommandHandler
-from SungJinwooRobot import OWNER_ID, SUDO_USERS, REDIS, dispatcher
+from SungJinwooRobot import OWNER_ID, REDIS, dispatcher
 
 
 info_btn = "More Info 📕"
@@ -233,10 +233,10 @@ def anime(update, context):
         image = info.replace('anilist.co/anime/', 'img.anili.st/media/')
         if trailer:
             buttons = [[
-                InlineKeyboardButton("More Info 📌", url=info),
+                InlineKeyboardButton("More Info ➕", url=info),
                 InlineKeyboardButton("Trailer 🎬", url=trailer)
             ]]
-            buttons += [[InlineKeyboardButton("➕ Add To Watchlist", callback_data=f"xanime_watchlist={anime_name_w}")]]
+            buttons += [[InlineKeyboardButton("➕ Add To Watchlist ➕", callback_data=f"xanime_watchlist={anime_name_w}")]]
         else:
             buttons = [[InlineKeyboardButton("More Info", url=info)]]
             buttons += [[InlineKeyboardButton("➕ Add To Watchlist", callback_data=f"xanime_watchlist={anime_name_w}")]]
@@ -289,7 +289,7 @@ def character(update, context):
         image = json.get('image', None)
         if image:
             image = image.get('large')
-            buttons = [[InlineKeyboardButton("Save as waifu 💝", callback_data=f"xanime_fvrtchar={char_name}")]]
+            buttons = [[InlineKeyboardButton("Save as Waifu ❣️", callback_data=f"xanime_fvrtchar={char_name}")]]
             update.effective_message.reply_photo(
                 photo=image,
                 caption=msg.replace('<b>', '</b>'),

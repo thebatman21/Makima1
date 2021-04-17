@@ -3,9 +3,7 @@
 [![Open Source Love svg2](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)!]
 
 
-A modular Telegram Group Management bot made using [Saitama](https://t.me/SaitamaRobot) as base repo.
-
-Can be found on telegram as [Sung Jin-Woo](https://t.me/SungJinwooRobot).
+A modular Telegram Group Management bot, can be found on telegram as [Sung Jin-Woo](https://t.me/SungJinwooRobot).
 
 The Support group can be reached out to at [Hunters Associations](https://t.me/HuntersAssociations), where you can ask for help about [Sung Jin-Woo](https://t.me/SungJinwooRobot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
@@ -168,6 +166,4 @@ For starters click on this button
 
 
 ## Credits
-The bot is based on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars) also futher development done by SaitamaRobot creator.
-This repo was just revamped to suit an Anime-centric community. All original credits go to Paul and his dedication, Without his efforts, this fork would not have been possible!
-
+Check commit history for credits.

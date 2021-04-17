@@ -236,7 +236,7 @@ def anime(update, context):
                 InlineKeyboardButton("More Info ➕", url=info),
                 InlineKeyboardButton("Trailer 🎬", url=trailer)
             ]]
-            buttons += [[InlineKeyboardButton("➕ Add To Watchlist", callback_data=f"xanime_watchlist={anime_name_w}")]]
+            buttons += [[InlineKeyboardButton("➕ Add To Watchlist ➕", callback_data=f"xanime_watchlist={anime_name_w}")]]
         else:
             buttons = [[InlineKeyboardButton("More Info", url=info)]]
             buttons += [[InlineKeyboardButton("➕ Add To Watchlist", callback_data=f"xanime_watchlist={anime_name_w}")]]

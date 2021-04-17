@@ -12,7 +12,7 @@ from telegram.utils.helpers import mention_html
 from SungJinwooRobot.modules.helper_funcs.alternate import typing_action
 from SungJinwooRobot import dispatcher
 from SungJinwooRobot.modules.disable import DisableAbleCommandHandler
-from SungJinwooRobot import OWNER_ID, SUDO_USERS, REDIS, dispatcher
+from SungJinwooRobot import OWNER_ID, REDIS, dispatcher
 
 
 info_btn = "More Info 📕"

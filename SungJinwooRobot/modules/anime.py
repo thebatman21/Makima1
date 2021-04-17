@@ -5,6 +5,7 @@ import bs4
 import html
 from inspect import getfullargspec
 
+from SungJinwooRobot import pbot
 from SungJinwooRobot import DEV_USERS, OWNER_ID, DRAGONS, dispatcher
 from SungJinwooRobot.modules.disable import DisableAbleCommandHandler
 from pyrogram import Client, filters

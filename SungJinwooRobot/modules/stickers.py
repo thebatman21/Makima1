@@ -684,12 +684,10 @@ ADD_FSTICKER_HANDLER = DisableAbleCommandHandler(["addfav","afv"], add_fvrtstick
 REMOVE_FSTICKER_HANDLER = DisableAbleCommandHandler(["removefslav","rfv"], remove_fvrtsticker, pass_args=True)
 MY_FSTICKERS_HANDLER = DisableAbleCommandHandler(["myfav","mfv"], list_fvrtsticker)
 GETSTICKER_HANDLER = DisableAbleCommandHandler("getsticker", getsticker)
-<<<<<<< HEAD
 FIND_STICKERS_HANDLER = DisableAbleCommandHandler("stickers", cb_sticker)
-=======
 KANG_HANDLER = DisableAbleCommandHandler(["kang", "steal"], kang, admin_ok=True)
 STICKERS_HANDLER = DisableAbleCommandHandler("stickers", cb_sticker)
->>>>>>> cea6e51012bf28bf176b7c3c277793303e8a3c6c
+
 
 dispatcher.add_handler(KANG_HANDLER)
 dispatcher.add_handler(DEL_HANDLER)

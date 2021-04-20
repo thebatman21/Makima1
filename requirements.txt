@@ -21,6 +21,7 @@ loguru
 bs4
 bson
 aiogram
+aioredis # Redis memery storage fom aiogram
 envparse
 PyYAML>5.0
 aiohttp>=2.2.5

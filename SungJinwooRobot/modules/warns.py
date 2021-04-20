@@ -508,11 +508,11 @@ __help__ = """
  • `/resetwarn <userhandle>`*:* reset the warns for a user. Can also be used as a reply.
  • `/rmwarn `*:* now you can remove last warn. No need reset.
  • `/addwarn <keyword> <reply message>`*:* set a warning filter on a certain keyword. If you want your keyword to \
-be a sentence, encompass it with quotes, as such:
- `/addwarn "very angry" This is an angry user`. 
+be a sentence, encompass it with quotes, as such: `/addwarn "very angry" This is an angry user`. 
  • `/nowarn <keyword>`*:* stop a warning filter
  • `/warnlimit <num>`*:* set the warning limit
-
+ • `/strongwarn <on/yes/off/no>`*:* If set to on, exceeding the warn limit will result in a ban. Else, will just punch.
+"""
 
 __mod_name__ = "Warnings"
 
@@ -538,7 +538,8 @@ WARN_FILTER_HANDLER = MessageHandler(CustomFilters.has_text & Filters.group,
                                      reply_filter)
 WARN_LIMIT_HANDLER = CommandHandler(
     "warnlimit", set_warn_limit, filters=Filters.group)
-
+WARN_STRENGTH_HANDLER = CommandHandler(
+    "strongwarn", set_warn_strength, filters=Filters.group)
 
 dispatcher.add_handler(WARN_HANDLER)
 dispatcher.add_handler(CALLBACK_QUERY_HANDLER)
@@ -549,5 +550,5 @@ dispatcher.add_handler(ADD_WARN_HANDLER)
 dispatcher.add_handler(RM_WARN_HANDLER)
 dispatcher.add_handler(LIST_WARN_HANDLER)
 dispatcher.add_handler(WARN_LIMIT_HANDLER)
-dispatcher.add_handler(WARN_HANDLER_GROUP)
-dispatcher.add_handler(WARN_FILTER_HANDLER)
+dispatcher.add_handler(WARN_STRENGTH_HANDLER)
+dispatcher.add_handler(WARN_FILTER_HANDLER, WARN_HANDLER_GROUP)

@@ -38,6 +38,7 @@ if url := get_str_key("BOTAPI_SERVER"):
 else:
     server = TELEGRAM_PRODUCTION
 TOKEN = get_str_key("TOKEN", required=True)
+OWNER_ID = get_int_key("OWNER_ID", required=True)
 bot = Bot(token=TOKEN, parse_mode=types.ParseMode.HTML, server=server)
 storage = RedisStorage2(
     host=get_str_key("REDIS_URI"),

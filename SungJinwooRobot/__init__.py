@@ -1,11 +1,16 @@
 import logging
 import os
 import sys
+import asyncio
 import time
 import spamwatch
 from redis import StrictRedis
 from pyrogram import Client, errors
-
+from aiogram import Bot, Dispatcher, types
+from aiogram.bot.api import TELEGRAM_PRODUCTION, TelegramAPIServer
+from aiogram.contrib.fsm_storage.redis import RedisStorage2
+from SungJinwooRobot.config import get_bool_key, get_int_key, get_list_key, get_str_key
+from SungJinwooRobot.utils.logger import log
 import telegram.ext as tg
 from telethon import TelegramClient
 
@@ -27,6 +32,28 @@ if sys.version_info[0] < 3 or sys.version_info[1] < 6:
     )
     quit(1)
 
+# Support for custom BotAPI servers
+if url := get_str_key("BOTAPI_SERVER"):
+    server = TelegramAPIServer.from_base(url)
+else:
+    server = TELEGRAM_PRODUCTION
+TOKEN = get_str_key("TOKEN", required=True)
+OWNER_ID = get_int_key("OWNER_ID", required=True)
+bot = Bot(token=TOKEN, parse_mode=types.ParseMode.HTML, server=server)
+storage = RedisStorage2(
+    host=get_str_key("REDIS_URI"),
+    port=get_int_key("REDIS_PORT"),
+    password=get_str_key("REDIS_PASS"),
+)
+dp = Dispatcher(bot, storage=storage)
+loop = asyncio.get_event_loop()
+log.debug("Getting bot info...")
+bot_info = loop.run_until_complete(bot.get_me())
+BOT_USERNAME = bot_info.username
+BOT_ID = bot_info.id
+
+    
+    
 ENV = bool(os.environ.get("ENV", False))
 
 if ENV:

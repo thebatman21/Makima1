@@ -39,6 +39,7 @@ else:
     server = TELEGRAM_PRODUCTION
 TOKEN = get_str_key("TOKEN", required=True)
 OWNER_ID = get_int_key("OWNER_ID", required=True)
+LOGS_CHANNEL_ID = get_int_key("LOGS_CHANNEL_ID", required=True)
 OPERATORS = list(get_list_key("OPERATORS"))
 OPERATORS.append(OWNER_ID)
 bot = Bot(token=TOKEN, parse_mode=types.ParseMode.HTML, server=server)
@@ -49,6 +50,7 @@ storage = RedisStorage2(
 )
 dp = Dispatcher(bot, storage=storage)
 loop = asyncio.get_event_loop()
+SUPPORT_CHAT = get_str_key("SUPPORT_CHAT", required=True)
 log.debug("Getting bot info...")
 bot_info = loop.run_until_complete(bot.get_me())
 BOT_USERNAME = bot_info.username

@@ -18,6 +18,7 @@ geopy
 nltk
 psutil
 loguru
+bs4
 aiogram
 envparse
 PyYAML>5.0

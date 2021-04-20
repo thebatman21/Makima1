@@ -428,11 +428,9 @@ def set_warn_limit(update: Update, context: CallbackContext) -> str:
     return ""
 
 
-@register(
-    cmds=["warnmode", "warnaction"], user_admin=True, bot_can_restrict_members=True
-)
-@chat_connection(admin=True)
-@get_strings_dec("warns")
+@run_async
+@user_admin
+@loggable
 async def warnmode(message, chat, strings):
     chat_id = chat["chat_id"]
     acceptable_args = ["ban", "tmute", "mute"]
@@ -563,7 +561,7 @@ WARN_FILTER_HANDLER = MessageHandler(CustomFilters.has_text & Filters.group,
 WARN_LIMIT_HANDLER = CommandHandler(
     "warnlimit", set_warn_limit, filters=Filters.group)
 WARN_STRENGTH_HANDLER = CommandHandler(
-    "strongwarn", set_warn_strength, filters=Filters.group)
+    "warnmode", set_warn_strength, filters=Filters.group)
 
 dispatcher.add_handler(WARN_HANDLER)
 dispatcher.add_handler(CALLBACK_QUERY_HANDLER)

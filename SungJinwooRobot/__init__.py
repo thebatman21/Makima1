@@ -39,7 +39,9 @@ else:
     server = TELEGRAM_PRODUCTION
 TOKEN = get_str_key("TOKEN", required=True)
 bot = Bot(token=TOKEN, parse_mode=types.ParseMode.HTML, server=server)
-
+bot_info = loop.run_until_complete(bot.get_me())
+BOT_USERNAME = bot_info.username
+BOT_ID = bot_info.id
     
     
 ENV = bool(os.environ.get("ENV", False))

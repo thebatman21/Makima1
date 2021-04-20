@@ -39,6 +39,7 @@ else:
     server = TELEGRAM_PRODUCTION
 TOKEN = get_str_key("TOKEN", required=True)
 bot = Bot(token=TOKEN, parse_mode=types.ParseMode.HTML, server=server)
+dp = Dispatcher(bot, storage=storage)
 loop = asyncio.get_event_loop()
 log.debug("Getting bot info...")
 bot_info = loop.run_until_complete(bot.get_me())

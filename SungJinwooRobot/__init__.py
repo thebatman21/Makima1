@@ -32,13 +32,14 @@ if sys.version_info[0] < 3 or sys.version_info[1] < 6:
     )
     quit(1)
 
-TOKEN = get_str_key("TOKEN", required=True)
-bot = Bot(token=TOKEN, parse_mode=types.ParseMode.HTML, server=server)
 # Support for custom BotAPI servers
 if url := get_str_key("BOTAPI_SERVER"):
     server = TelegramAPIServer.from_base(url)
 else:
     server = TELEGRAM_PRODUCTION
+TOKEN = get_str_key("TOKEN", required=True)
+bot = Bot(token=TOKEN, parse_mode=types.ParseMode.HTML, server=server)
+
     
     
 ENV = bool(os.environ.get("ENV", False))

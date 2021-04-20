@@ -39,6 +39,11 @@ else:
     server = TELEGRAM_PRODUCTION
 TOKEN = get_str_key("TOKEN", required=True)
 bot = Bot(token=TOKEN, parse_mode=types.ParseMode.HTML, server=server)
+storage = RedisStorage2(
+    host=get_str_key("REDIS_URI"),
+    port=get_int_key("REDIS_PORT"),
+    password=get_str_key("REDIS_PASS"),
+)
 dp = Dispatcher(bot, storage=storage)
 loop = asyncio.get_event_loop()
 log.debug("Getting bot info...")

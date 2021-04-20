@@ -1,10 +1,14 @@
 import logging
 import os
 import sys
+import asyncio
 import time
 import spamwatch
 from redis import StrictRedis
 from pyrogram import Client, errors
+from aiogram import Bot, Dispatcher, types
+from aiogram.bot.api import TELEGRAM_PRODUCTION, TelegramAPIServer
+from aiogram.contrib.fsm_storage.redis import RedisStorage2
 
 import telegram.ext as tg
 from telethon import TelegramClient

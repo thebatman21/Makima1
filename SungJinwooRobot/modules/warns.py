@@ -430,68 +430,46 @@ def set_warn_limit(update: Update, context: CallbackContext) -> str:
 
 @run_async
 @user_admin
-@loggable
-async def warnmode(message, chat, strings):
-    chat_id = chat["chat_id"]
-    acceptable_args = ["ban", "tmute", "mute"]
-    arg = str(message.get_args()).split()
-    new = {"chat_id": chat_id}
+def set_warn_strength(update: Update, context: CallbackContext):
+    args = context.args
+    chat: Optional[Chat] = update.effective_chat
+    user: Optional[User] = update.effective_user
+    msg: Optional[Message] = update.effective_message
 
-    if arg and arg[0] in acceptable_args:
-        option = "".join(arg[0])
-        if (
-            data := await db.warnmode.find_one({"chat_id": chat_id})
-        ) is not None and data["mode"] == option:
-            return await message.reply(strings["same_mode"])
-        if arg[0] == acceptable_args[0]:
-            new["mode"] = option
-            await db.warnmode.update_one(
-                {"chat_id": chat_id}, {"$set": new}, upsert=True
+    if args:
+        if args[0].lower() in ("on", "yes"):
+            sql.set_warn_strength(chat.id, False)
+            msg.reply_text("Too many warns will now result in a Ban!")
+            return (
+                f"<b>{html.escape(chat.title)}:</b>\n"
+                f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+                f"Has enabled strong warns. Users will be seriously punched.(banned)"
             )
-        elif arg[0] == acceptable_args[1]:
-            try:
-                time = arg[1]
-            except IndexError:
-                return await message.reply(strings["no_time"])
-            else:
-                try:
-                    # TODO: For better UX we have to show until time of tmute when action is done.
-                    # We can't store timedelta class in mongodb; Here we check validity of given time.
-                    convert_time(time)
-                except (InvalidTimeUnit, TypeError, ValueError):
-                    return await message.reply(strings["invalid_time"])
-                else:
-                    new.update(mode=option, time=time)
-                    await db.warnmode.update_one(
-                        {"chat_id": chat_id}, {"$set": new}, upsert=True
-                    )
-        elif arg[0] == acceptable_args[2]:
-            new["mode"] = option
-            await db.warnmode.update_one(
-                {"chat_id": chat_id}, {"$set": new}, upsert=True
+
+        elif args[0].lower() in ("off", "no"):
+            sql.set_warn_strength(chat.id, True)
+            msg.reply_text(
+                "Too many warns will now result in a normal punch! Users will be able to join again after."
             )
-        await message.reply(strings["warnmode_success"] % (chat["chat_title"], option))
+            return (
+                f"<b>{html.escape(chat.title)}:</b>\n"
+                f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+                f"Has disabled strong punches. I will use normal punch on users."
+            )
+
+        else:
+            msg.reply_text("I only understand on/yes/no/off!")
     else:
-        text = ""
-        if (curr_mode := await db.warnmode.find_one({"chat_id": chat_id})) is not None:
-            mode = curr_mode["mode"]
-            text += strings["mode_info"] % mode
-        text += strings["wrng_args"]
-        text += "\n".join([f"- {i}" for i in acceptable_args])
-        await message.reply(text)
-
-
-async def max_warn_func(chat_id, user_id):
-    if (data := await db.warnmode.find_one({"chat_id": chat_id})) is not None:
-        if data["mode"] == "ban":
-            return await ban_user(chat_id, user_id)
-        elif data["mode"] == "tmute":
-            time = convert_time(data["time"])
-            return await mute_user(chat_id, user_id, time)
-        elif data["mode"] == "mute":
-            return await mute_user(chat_id, user_id)
-    else:  # Default
-        return await ban_user(chat_id, user_id)
+        limit, soft_warn = sql.get_warn_setting(chat.id)
+        if soft_warn:
+            msg.reply_text(
+                "Warns are currently set to *punch* users when they exceed the limits.",
+                parse_mode=ParseMode.MARKDOWN)
+        else:
+            msg.reply_text(
+                "Warns are currently set to *Ban* users when they exceed the limits.",
+                parse_mode=ParseMode.MARKDOWN)
+    return ""
 
 
 def __stats__():
@@ -561,7 +539,7 @@ WARN_FILTER_HANDLER = MessageHandler(CustomFilters.has_text & Filters.group,
 WARN_LIMIT_HANDLER = CommandHandler(
     "warnlimit", set_warn_limit, filters=Filters.group)
 WARN_STRENGTH_HANDLER = CommandHandler(
-    "warnmode", set_warn_strength, filters=Filters.group)
+    "strongwarn", set_warn_strength, filters=Filters.group)
 
 dispatcher.add_handler(WARN_HANDLER)
 dispatcher.add_handler(CALLBACK_QUERY_HANDLER)

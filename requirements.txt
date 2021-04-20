@@ -19,6 +19,7 @@ nltk
 psutil
 loguru
 bs4
+bson
 aiogram
 envparse
 PyYAML>5.0

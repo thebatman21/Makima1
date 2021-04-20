@@ -16,7 +16,7 @@
 from aiogram.types.chat_permissions import ChatPermissions
 from aiogram.utils.exceptions import BadRequest, MigrateToChat, Unauthorized
 
-from DaisyX import bot
+from SungJinwooRobot import bot
 
 
 async def ban_user(chat_id, user_id, until_date=None):

@@ -16,7 +16,7 @@
 import asyncio
 import subprocess
 
-from DaisyX.services.telethon import tbot
+from SungJinwooRobot.services.telethon import tbot
 
 
 async def chat_term(message, command):

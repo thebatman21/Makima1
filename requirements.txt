@@ -21,6 +21,7 @@ loguru
 bs4
 bson
 motor
+dnspython # needed to connect to cloud MongoDB instances
 pymongo
 sentry_sdk
 aiogram

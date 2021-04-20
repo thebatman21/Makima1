@@ -1,6 +1,34 @@
 import html
 import re
+import functools
 from typing import Optional
+
+from contextlib import suppress
+
+from aiogram.types import Message
+from aiogram.types.inline_keyboard import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.utils.deep_linking import get_start_link
+from aiogram.utils.exceptions import MessageNotModified
+from babel.dates import format_timedelta
+from bson.objectid import ObjectId
+
+from SungJinwooRobot import BOT_ID, bot
+from SungJinwooRobot.decorator import register
+from SungJinwooRobot.services.mongo import db
+from SungJinwooRobot.services.telethon import tbot
+
+from .misc import customise_reason_finish, customise_reason_start
+from .utils.connections import chat_connection
+from .utils.language import get_strings_dec
+from .utils.message import InvalidTimeUnit, convert_time
+from .utils.restrictions import ban_user, mute_user
+from .utils.user_details import (
+    get_user_and_text_dec,
+    get_user_dec,
+    get_user_link,
+    is_user_admin,
+)
+
 
 import telegram
 from SungJinwooRobot import TIGERS, WOLVES, dispatcher
@@ -428,48 +456,73 @@ def set_warn_limit(update: Update, context: CallbackContext) -> str:
     return ""
 
 
-@run_async
-@user_admin
-def set_warn_strength(update: Update, context: CallbackContext):
-    args = context.args
-    chat: Optional[Chat] = update.effective_chat
-    user: Optional[User] = update.effective_user
-    msg: Optional[Message] = update.effective_message
+@register(
+    cmds=["warnmode", "warnaction"], user_admin=True, bot_can_restrict_members=True
+)
+@chat_connection(admin=True)
+@get_strings_dec("warns")
+async def warnmode(message, chat, strings):
+    chat_id = chat["chat_id"]
+    acceptable_args = ["ban", "tmute", "mute"]
+    arg = str(message.get_args()).split()
+    new = {"chat_id": chat_id}
 
-    if args:
-        if args[0].lower() in ("on", "yes"):
-            sql.set_warn_strength(chat.id, False)
-            msg.reply_text("Too many warns will now result in a Ban!")
-            return (
-                f"<b>{html.escape(chat.title)}:</b>\n"
-                f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                f"Has enabled strong warns. Users will be seriously punched.(banned)"
+    if arg and arg[0] in acceptable_args:
+        option = "".join(arg[0])
+        if (
+            data := await db.warnmode.find_one({"chat_id": chat_id})
+        ) is not None and data["mode"] == option:
+            return await message.reply(strings["same_mode"])
+        if arg[0] == acceptable_args[0]:
+            new["mode"] = option
+            await db.warnmode.update_one(
+                {"chat_id": chat_id}, {"$set": new}, upsert=True
             )
-
-        elif args[0].lower() in ("off", "no"):
-            sql.set_warn_strength(chat.id, True)
-            msg.reply_text(
-                "Too many warns will now result in a normal punch! Users will be able to join again after."
+        elif arg[0] == acceptable_args[1]:
+            try:
+                time = arg[1]
+            except IndexError:
+                return await message.reply(strings["no_time"])
+            else:
+                try:
+                    # TODO: For better UX we have to show until time of tmute when action is done.
+                    # We can't store timedelta class in mongodb; Here we check validity of given time.
+                    convert_time(time)
+                except (InvalidTimeUnit, TypeError, ValueError):
+                    return await message.reply(strings["invalid_time"])
+                else:
+                    new.update(mode=option, time=time)
+                    await db.warnmode.update_one(
+                        {"chat_id": chat_id}, {"$set": new}, upsert=True
+                    )
+        elif arg[0] == acceptable_args[2]:
+            new["mode"] = option
+            await db.warnmode.update_one(
+                {"chat_id": chat_id}, {"$set": new}, upsert=True
             )
-            return (
-                f"<b>{html.escape(chat.title)}:</b>\n"
-                f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-                f"Has disabled strong punches. I will use normal punch on users."
-            )
-
-        else:
-            msg.reply_text("I only understand on/yes/no/off!")
+        await message.reply(strings["warnmode_success"] % (chat["chat_title"], option))
     else:
-        limit, soft_warn = sql.get_warn_setting(chat.id)
-        if soft_warn:
-            msg.reply_text(
-                "Warns are currently set to *punch* users when they exceed the limits.",
-                parse_mode=ParseMode.MARKDOWN)
-        else:
-            msg.reply_text(
-                "Warns are currently set to *Ban* users when they exceed the limits.",
-                parse_mode=ParseMode.MARKDOWN)
-    return ""
+        text = ""
+        if (curr_mode := await db.warnmode.find_one({"chat_id": chat_id})) is not None:
+            mode = curr_mode["mode"]
+            text += strings["mode_info"] % mode
+        text += strings["wrng_args"]
+        text += "\n".join([f"- {i}" for i in acceptable_args])
+        await message.reply(text)
+
+
+async def max_warn_func(chat_id, user_id):
+    if (data := await db.warnmode.find_one({"chat_id": chat_id})) is not None:
+        if data["mode"] == "ban":
+            return await ban_user(chat_id, user_id)
+        elif data["mode"] == "tmute":
+            time = convert_time(data["time"])
+            return await mute_user(chat_id, user_id, time)
+        elif data["mode"] == "mute":
+            return await mute_user(chat_id, user_id)
+    else:  # Default
+        return await ban_user(chat_id, user_id)
+
 
 
 def __stats__():

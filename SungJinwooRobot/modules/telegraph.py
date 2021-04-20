@@ -9,7 +9,7 @@ from PIL import Image
 from telegraph import Telegraph, exceptions, upload_file
 from telethon import events
 
-from SungJinwooRobot.telethon import tbot as borg
+from SungJinwooRobot.services.telethon import tbot as borg
 
 telegraph = Telegraph()
 r = telegraph.create_account(short_name="DaisyX")
@@ -100,5 +100,6 @@ __mod_name__ = """
  - /telegraph media <i>reply to image or video<i> : Upload image and video directly to telegraph.
  - /telegraph text <i>reply to text</i> : upload text directly to telegraph .
 """
+
 
 __mod_name__ = "Telegraph"

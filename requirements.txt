@@ -20,6 +20,7 @@ psutil
 loguru
 bs4
 bson
+sentry_sdk
 aiogram
 aioredis # Redis memery storage fom aiogram
 envparse

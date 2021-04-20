@@ -101,5 +101,4 @@ __mod_name__ = """
  - /telegraph text <i>reply to text</i> : upload text directly to telegraph .
 """
 
-
 __mod_name__ = "Telegraph"

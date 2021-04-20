@@ -17,6 +17,7 @@
 from telethon import TelegramClient
 
 from SungJinwooRobot.config import get_int_key, get_str_key
+from SungJinwooRobot import API_ID, API_HASH
 
 TOKEN = get_str_key("TOKEN", required=True)
 NAME = TOKEN.split(":")[0]

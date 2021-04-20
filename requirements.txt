@@ -20,6 +20,8 @@ psutil
 loguru
 bs4
 bson
+motor
+pymongo
 sentry_sdk
 aiogram
 aioredis # Redis memery storage fom aiogram

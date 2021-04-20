@@ -26,9 +26,9 @@ LANGUAGES = {}
 
 log.info("Loading localizations...")
 
-for filename in os.listdir("DaisyX/localization"):
+for filename in os.listdir("SungJinwooRobot/localization"):
     log.debug("Loading language file " + filename)
-    with open("DaisyX/localization/" + filename, "r", encoding="utf8") as f:
+    with open("SungJinwooRobot/localization/" + filename, "r", encoding="utf8") as f:
         lang = yaml.load(f, Loader=yaml.CLoader)
 
         lang_code = lang["language_info"]["code"]

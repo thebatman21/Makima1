@@ -9,7 +9,8 @@ from pyrogram import Client, errors
 from aiogram import Bot, Dispatcher, types
 from aiogram.bot.api import TELEGRAM_PRODUCTION, TelegramAPIServer
 from aiogram.contrib.fsm_storage.redis import RedisStorage2
-
+from SungJinwooRobot.config import get_bool_key, get_int_key, get_list_key, get_str_key
+from SungJinwooRobot.utils.logger import log
 import telegram.ext as tg
 from telethon import TelegramClient
 
@@ -30,7 +31,8 @@ if sys.version_info[0] < 3 or sys.version_info[1] < 6:
         "You MUST have a python version of at least 3.6! Multiple features depend on this. Bot quitting."
     )
     quit(1)
-    
+
+TOKEN = get_str_key("TOKEN", required=True)
 bot = Bot(token=TOKEN, parse_mode=types.ParseMode.HTML, server=server)
 ENV = bool(os.environ.get("ENV", False))
 

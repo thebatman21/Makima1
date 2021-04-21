@@ -602,5 +602,4 @@ dispatcher.add_handler(ADD_WARN_HANDLER)
 dispatcher.add_handler(RM_WARN_HANDLER)
 dispatcher.add_handler(LIST_WARN_HANDLER)
 dispatcher.add_handler(WARN_LIMIT_HANDLER)
-
 dispatcher.add_handler(WARN_FILTER_HANDLER, WARN_HANDLER_GROUP)

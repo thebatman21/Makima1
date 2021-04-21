@@ -455,6 +455,48 @@ def set_warn_limit(update: Update, context: CallbackContext) -> str:
         msg.reply_text("The current warn limit is {}".format(limit))
     return ""
 
+@run_async
+@user_admin
+def set_warn_strength(update: Update, context: CallbackContext):
+    args = context.args
+    chat: Optional[Chat] = update.effective_chat
+    user: Optional[User] = update.effective_user
+    msg: Optional[Message] = update.effective_message
+
+    if args:
+        if args[0].lower() in ("on", "yes"):
+            sql.set_warn_strength(chat.id, False)
+            msg.reply_text("Too many warns will now result in a Ban!")
+            return (
+                f"<b>{html.escape(chat.title)}:</b>\n"
+                f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+                f"Has enabled strong warns. Users will be seriously punched.(banned)"
+            )
+
+        elif args[0].lower() in ("off", "no"):
+            sql.set_warn_strength(chat.id, True)
+            msg.reply_text(
+                "Too many warns will now result in a normal punch! Users will be able to join again after."
+            )
+            return (
+                f"<b>{html.escape(chat.title)}:</b>\n"
+                f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+                f"Has disabled strong punches. I will use normal punch on users."
+            )
+
+        else:
+            msg.reply_text("I only understand on/yes/no/off!")
+    else:
+        limit, soft_warn = sql.get_warn_setting(chat.id)
+        if soft_warn:
+            msg.reply_text(
+                "Warns are currently set to *punch* users when they exceed the limits.",
+                parse_mode=ParseMode.MARKDOWN)
+        else:
+            msg.reply_text(
+                "Warns are currently set to *Ban* users when they exceed the limits.",
+                parse_mode=ParseMode.MARKDOWN)
+    return ""
 
 @register(
     cmds=["warnmode", "warnaction"], user_admin=True, bot_can_restrict_members=True
@@ -591,6 +633,8 @@ WARN_FILTER_HANDLER = MessageHandler(CustomFilters.has_text & Filters.group,
                                      reply_filter)
 WARN_LIMIT_HANDLER = CommandHandler(
     "warnlimit", set_warn_limit, filters=Filters.group)
+WARN_STRENGTH_HANDLER = CommandHandler(
+    "strongwarn", set_warn_strength, filters=Filters.group)
 
 
 dispatcher.add_handler(WARN_HANDLER)
@@ -602,4 +646,5 @@ dispatcher.add_handler(ADD_WARN_HANDLER)
 dispatcher.add_handler(RM_WARN_HANDLER)
 dispatcher.add_handler(LIST_WARN_HANDLER)
 dispatcher.add_handler(WARN_LIMIT_HANDLER)
+dispatcher.add_handler(WARN_STRENGTH_HANDLER)
 dispatcher.add_handler(WARN_FILTER_HANDLER, WARN_HANDLER_GROUP)

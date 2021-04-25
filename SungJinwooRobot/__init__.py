@@ -12,6 +12,9 @@ from aiogram.contrib.fsm_storage.redis import RedisStorage2
 from SungJinwooRobot.config import get_bool_key, get_int_key, get_list_key, get_str_key
 from SungJinwooRobot.utils.logger import log
 
+import telegram.ext as tg
+from telethon import TelegramClient
+
 StartTime = time.time()
 
 # enable logging

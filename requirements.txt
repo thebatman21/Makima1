@@ -24,6 +24,7 @@ motor
 dnspython # needed to connect to cloud MongoDB instances
 pymongo
 sentry_sdk
+python-rapidjson
 aiogram
 aioredis # Redis memery storage fom aiogram
 envparse

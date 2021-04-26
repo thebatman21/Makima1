@@ -6,7 +6,6 @@ import time
 import spamwatch
 from redis import StrictRedis
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
-from Python_ARQ import ARQ
 from pyrogram import Client, errors
 from aiogram import Bot, Dispatcher, types
 from aiogram.bot.api import TELEGRAM_PRODUCTION, TelegramAPIServer
@@ -235,7 +234,6 @@ telethn = TelegramClient("SungJinwoo", API_ID, API_HASH)
 pgram = Client("SungJinwooRobot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 mongo_client = MongoClient(MONGO_DB_URI)
 db = mongo_client.SungJinwooRobot
-arq = ARQ(ARQ_API)
 dispatcher = updater.dispatcher
 
 DRAGONS = list(DRAGONS) + list(DEV_USERS)

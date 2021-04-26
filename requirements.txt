@@ -23,7 +23,6 @@ bson
 motor
 dnspython # needed to connect to cloud MongoDB instances
 pymongo
-python-aqr
 functools 
 sentry_sdk
 python-rapidjson

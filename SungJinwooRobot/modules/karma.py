@@ -5,7 +5,7 @@ from SungJinwooRobot.utils.filter_groups import karma_positive_group, karma_nega
 from pyrogram import filters
 
 
-regex_upvote = r"^((?i)\+\+\+|\+\+|\+1|thank you|thanks|ty|tysm|👍)$"
+regex_upvote = r"^((?i)\+\+\+|\+\+|\+1|thank you|ty|tysm|👍)$"
 regex_downvote = r"^(\-\-\-\|\-1)$"
 
 

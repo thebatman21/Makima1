@@ -111,7 +111,7 @@ async def karma(_, message):
             karma = 0
             await message.reply_text(f'**Total Points**: __{karma}__')
 
-__module_name__ = "Karma"
+__mod_name__ = "Karma"
 __help__ = """*Upvote* - Use upvote keywords like "+", "+1", "thanks", etc. to upvote a message.
 
 *Downvote* - Use downvote keywords like "-", "-1", etc. to downvote a message.

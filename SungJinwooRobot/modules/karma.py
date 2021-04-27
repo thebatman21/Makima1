@@ -75,7 +75,7 @@ async def downvote(_, message):
     )
 
 
-@pgram.on_message(filters.command("rep") & filters.group)
+@pgram.on_message(filters.command("reputation") & filters.group)
 
 async def karma(_, message):
     chat_id = message.chat.id
@@ -111,11 +111,11 @@ async def karma(_, message):
             karma = 0
             await message.reply_text(f'**Total Points**: __{karma}__')
 
-__mod_name__ = "Karma"
+__mod_name__ = "Reputation"
 __help__ = """*Upvote* - Use upvote keywords like "+", "+1", "thanks", etc. to upvote a message.
 
 *Downvote* - Use downvote keywords like "-", "-1", etc. to downvote a message.
 
-Reply to a message with `/karma` to check a user's karma.
-Send `/karma` without replying to any message to chek karma list of top 10 users."""
+Reply to a message with `/reputation` to check a user's karma.
+Send `/reputation` without replying to any message to chek karma list of top 10 users."""
 

@@ -116,6 +116,6 @@ __help__ = """*Upvote* - Use upvote keywords like "+", "+1", "thanks", etc. to u
 
 *Downvote* - Use downvote keywords like "-", "-1", etc. to downvote a message.
 
-Reply to a message with `/karma` to check a user's karma
-Send `/karma` without replying to any message to chek karma list of top 10 users"""
+Reply to a message with `/karma` to check a user's karma.
+Send `/karma` without replying to any message to chek karma list of top 10 users."""
 

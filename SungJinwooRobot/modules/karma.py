@@ -112,10 +112,10 @@ async def karma(_, message):
             await message.reply_text(f'**Total Points**: __{karma}__')
 
 __mod_name__ = "Reputation"
-__help__ = """*Upvote* - Use upvote keywords like "+", "+1", "thanks", etc. to upvote a message.
+__help__ = """*Upvote* - Use upvote keywords like "++", "+1", "thanks", etc. to upvote a message.
 
-*Downvote* - Use downvote keywords like "-", "-1", etc. to downvote a message.
+*Downvote* - Use downvote keywords like "---", "-1", etc. to downvote a message.
 
-Reply to a message with `/reputation` to check a user's karma.
-Send `/reputation` without replying to any message to chek karma list of top 10 users."""
+Reply to a message with `/reputation` to check a user's reputation.
+Send `/reputation` without replying to any message to check reputation list of top 10 users."""
 

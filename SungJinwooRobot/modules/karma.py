@@ -38,7 +38,7 @@ async def upvote(_, message):
         new_karma = {"karma": karma}
         await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
     await message.reply_text(
-        f'Incremented Karma of {user_mention} By 1 \nTotal Points: {karma}'
+        f'Increased Reputation of {user_mention} By 1 \nTotal Points: {karma}'
     )
 
 
@@ -71,18 +71,18 @@ async def downvote(_, message):
         new_karma = {"karma": karma}
         await update_karma(chat_id, await int_to_alpha(user_id), new_karma)
     await message.reply_text(
-        f'Decremented Karma Of {user_mention} By 1 \nTotal Points: {karma}'
+        f'Decreased reputation Of {user_mention} By 1 \nTotal Points: {karma}'
     )
 
 
-@pgram.on_message(filters.command("karma") & filters.group)
+@pgram.on_message(filters.command("rep") & filters.group)
 
 async def karma(_, message):
     chat_id = message.chat.id
 
     if not message.reply_to_message:
         karma = await get_karmas(chat_id)
-        msg = f"**Karma list of {message.chat.title}:- **\n"
+        msg = f"**Reputation list of {message.chat.title}:- **\n"
         limit = 0
         karma_dicc = {}
         for i in karma:

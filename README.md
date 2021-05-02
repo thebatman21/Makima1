@@ -3,9 +3,9 @@
 [![Open Source Love svg2](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)!]
 
 
-A modular Telegram Group Management bot, can be found on telegram as [Sung Jin-Woo](https://t.me/SungJinwooRobot).
+A modular Telegram Group Management bot, can be found on telegram as [Senku](https://t.me/Senkubest_bot).
 
-The Support group can be reached out to at [Hunters Associations](https://t.me/HuntersAssociations), where you can ask for help about [Sung Jin-Woo](https://t.me/SungJinwooRobot), discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
+The Support group can be reached out to at [Support](https://t.me/myawesomebot21), where you can ask for help about Senku Bot, discover/request new features, report bugs, and stay in the loop whenever a new update is available. 
 
 ## How to setup/deploy.
 
@@ -22,7 +22,7 @@ REMEMBER: Turn on worker dyno (Don't worry It's free :D) & Webhook
 Now send the bot /start, If it doesn't respond go to https://dashboard.heroku.com/apps/(app-name)/settings and remove webhook and port.
 ```
 
-  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Pirate-Hunter/Sung-Jinwoo.git)
+  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/asadali32117/Senku.git)
 
 </details>  
 <details>
@@ -162,7 +162,7 @@ Note: the restart bat requires that User account control be disabled.
 ## How to setup on Heroku 
 For starters click on this button 
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Pirate-Hunter/Sung-Jinwoo.git) 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/asadali32117/Senku.git) 
 
 
 ## Credits

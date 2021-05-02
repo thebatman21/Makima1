@@ -99,7 +99,7 @@ HELP_STRINGS = """
 `Click on the buttons below to know about specific modules..`"""
 
 
-KURUMI_IMG = "https://telegra.ph/file/e1d87ec2bdac4e3cfe0a4.mp4"
+KURUMI_IMG = "https://telegra.ph/file/78a95df585a55187568ee.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Click here to donate in [Paypal](https://www.paypal.me/zameeljaz)"""
@@ -407,8 +407,8 @@ def get_help(update: Update, context: CallbackContext):
     if chat.type != chat.PRIVATE:
         if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
             module = args[1].lower()
-            update.effective_message.reply_text(
-                f"Contact me in PM to get help of {module.capitalize()}",
+            update.effective_message.reply_image(
+              KURUMI_IMG, caption=f"Contact me in PM to get help of {module.capitalize()}",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [

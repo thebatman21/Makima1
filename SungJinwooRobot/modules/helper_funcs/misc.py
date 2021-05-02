@@ -67,8 +67,10 @@ def paginate_modules(page_n: int, module_dict: Dict, prefix, chat=None) -> List:
     elif calc == 2:
         pairs.append((modules[-1],))
 
-    return pairs
+    else:
+        pairs += [[EqInlineKeyboardButton("⇪ GO BACK TO THE MAIN MENU ⇪", callback_data="kurumi_back")]]
 
+    return pairs
 
 def send_to_list(bot: Bot,
                  send_to: list,

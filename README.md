@@ -1,5 +1,5 @@
-![Sung Jin-Woo](https://telegra.ph/file/cc951a72b7416a2dedc02.jpg)
-# Sung Jin-Woo 
+![Senku](https://telegra.ph/file/cbad2a4725b43314dc340.jpg)
+# Senku
 [![Open Source Love svg2](https://badges.frapsoft.com/os/v2/open-source.svg?v=103)](https://github.com/ellerbrock/open-source-badges/)!]
 
 

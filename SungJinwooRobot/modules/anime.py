@@ -1,21 +1,19 @@
-import bs4
-import html
-import jikanpy
 import datetime
+import html
 import textwrap
+
+import bs4
+import jikanpy
 import requests
-import json
-from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode, Update)
-from telegram.ext import CallbackQueryHandler, CommandHandler, run_async, CallbackContext
-from telegram.utils.helpers import mention_html
+from KURUMIBOT import DEV_USERS, OWNER_ID, DRAGONS, dispatcher
+from KURUMIBOT.modules.disable import DisableAbleCommandHandler
+from telegram import (InlineKeyboardButton, InlineKeyboardMarkup, ParseMode,
+                      Update)
+from telegram.ext import CallbackContext, CallbackQueryHandler, run_async
 
-from SungJinwooRobot.modules.helper_funcs.alternate import typing_action
-from SungJinwooRobot import dispatcher
-from SungJinwooRobot.modules.disable import DisableAbleCommandHandler
-from SungJinwooRobot import OWNER_ID, REDIS, dispatcher
-
-
-info_btn = "More Info 📕"
+info_btn = "More Information"
+kaizoku_btn = "Kaizoku ☠️"
+kayo_btn = "Kayo 🏴‍☠️"
 prequel_btn = "⬅️ Prequel"
 sequel_btn = "Sequel ➡️"
 close_btn = "Close ❌"
@@ -48,10 +46,9 @@ def t(milliseconds: int) -> str:
 
 
 airing_query = '''
-    query ($id: Int,$search: String) {
-      Media (id: $id, type: ANIME,search: $search) {
+    query ($id: Int,$search: String) { 
+      Media (id: $id, type: ANIME,search: $search) { 
         id
-        siteUrl
         episodes
         title {
           romaji
@@ -62,28 +59,27 @@ airing_query = '''
            airingAt
            timeUntilAiring
            episode
-        }
+        } 
       }
     }
     '''
 
 fav_query = """
-query ($id: Int) {
-      Media (id: $id, type: ANIME) {
+query ($id: Int) { 
+      Media (id: $id, type: ANIME) { 
         id
         title {
           romaji
           english
           native
         }
-        siteUrl
      }
 }
 """
 
 anime_query = '''
-   query ($id: Int,$search: String) {
-      Media (id: $id, type: ANIME,search: $search) {
+   query ($id: Int,$search: String) { 
+      Media (id: $id, type: ANIME,search: $search) { 
         id
         title {
           romaji
@@ -108,7 +104,7 @@ anime_query = '''
           }
           trailer{
                id
-               site
+               site 
                thumbnail
           }
           averageScore
@@ -136,8 +132,8 @@ character_query = """
 """
 
 manga_query = """
-query ($id: Int,$search: String) {
-      Media (id: $id, type: MANGA,search: $search) {
+query ($id: Int,$search: String) { 
+      Media (id: $id, type: MANGA,search: $search) { 
         id
         title {
           romaji
@@ -163,13 +159,12 @@ url = 'https://graphql.anilist.co'
 
 
 @run_async
-@typing_action
-def airing(update, context):
+def airing(update: Update, context: CallbackContext):
     message = update.effective_message
     search_str = message.text.split(' ', 1)
     if len(search_str) == 1:
         update.effective_message.reply_text(
-            '**Usage:** `/airing` <anime name>)')
+            'Tell Anime Name :) ( /airing <anime name>)')
         return
     variables = {'search': search_str[1]}
     response = requests.post(
@@ -177,21 +172,18 @@ def airing(update, context):
             'query': airing_query,
             'variables': variables
         }).json()['data']['Media']
-    info = response.get('siteUrl')
-    image = info.replace('anilist.co/anime/', 'img.anili.st/media/')
-    msg = f"*Name*: *{response['title']['romaji']}*(`{response['title']['native']}`)\n\n*• ID*: `{response['id']}`[⁠ ⁠]({image})"
+    msg = f"*Name*: *{response['title']['romaji']}*(`{response['title']['native']}`)\n*ID*: `{response['id']}`"
     if response['nextAiringEpisode']:
         time = response['nextAiringEpisode']['timeUntilAiring'] * 1000
         time = t(time)
-        msg += f"\n*Episode*: `{response['nextAiringEpisode']['episode']}`\n*• Airing In*: `{time}`"
+        msg += f"\n*Episode*: `{response['nextAiringEpisode']['episode']}`\n*Airing In*: `{time}`"
     else:
-        msg += f"\n*Episode*:{response['episodes']}\n*• Status*: `N/A`"
+        msg += f"\n*Episode*:{response['episodes']}\n*Status*: `N/A`"
     update.effective_message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
 
 
 @run_async
-@typing_action
-def anime(update, context):
+def anime(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(' ', 1)
     if len(search) == 1:
@@ -206,19 +198,18 @@ def anime(update, context):
             'variables': variables
         }).json()
     if 'errors' in json.keys():
-        update.effective_message.reply_text('Anime not found ;-;')
+        update.effective_message.reply_text('Anime not found')
         return
     if json:
         json = json['data']['Media']
-        msg = f"*{json['title']['romaji']}* *-* *({json['title']['native']})*\n\n*• Type*: {json['format']}\n*• Status*: {json['status']}\n*• Episodes*: {json.get('episodes', 'N/A')}\n*• Duration*: {json.get('duration', 'N/A')} Per Ep.\n*• Score*: {json['averageScore']}\n*• Genres*: `"
+        msg = f"*{json['title']['romaji']}*(`{json['title']['native']}`)\n*Type*: {json['format']}\n*Status*: {json['status']}\n*Episodes*: {json.get('episodes', 'N/A')}\n*Duration*: {json.get('duration', 'N/A')} Per Ep.\n*Score*: {json['averageScore']}\n*Genres*: `"
         for x in json['genres']:
             msg += f"{x}, "
         msg = msg[:-2] + '`\n'
-        msg += "*• Studios*: `"
+        msg += "*Studios*: `"
         for x in json['studios']['nodes']:
             msg += f"{x['name']}, "
         msg = msg[:-2] + '`\n'
-        anime_name_w = f"{json['title']['romaji']}"
         info = json.get('siteUrl')
         trailer = json.get('trailer', None)
         anime_id = json['id']
@@ -227,19 +218,17 @@ def anime(update, context):
             site = trailer.get('site', None)
             if site == "youtube":
                 trailer = 'https://youtu.be/' + trailer_id
-        description = json.get('description', 'N/A').replace('<b>', '').replace(
-            '</b>', '').replace('<br>', '')
+        description = json.get('description', 'N/A').replace('<i>', '').replace(
+            '</i>', '').replace('<br>', '')
         msg += shorten(description, info)
-        image = info.replace('anilist.co/anime/', 'img.anili.st/media/')
+        image = json.get('bannerImage', None)
         if trailer:
             buttons = [[
-                InlineKeyboardButton("More Info ➕", url=info),
+                InlineKeyboardButton("More Info", url=info),
                 InlineKeyboardButton("Trailer 🎬", url=trailer)
             ]]
-            buttons += [[InlineKeyboardButton("➕ Add To Watchlist ➕", callback_data=f"xanime_watchlist={anime_name_w}")]]
         else:
             buttons = [[InlineKeyboardButton("More Info", url=info)]]
-            buttons += [[InlineKeyboardButton("➕ Add To Watchlist", callback_data=f"xanime_watchlist={anime_name_w}")]]
         if image:
             try:
                 update.effective_message.reply_photo(
@@ -261,8 +250,7 @@ def anime(update, context):
 
 
 @run_async
-@typing_action
-def character(update, context):
+def character(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(' ', 1)
     if len(search) == 1:
@@ -281,28 +269,24 @@ def character(update, context):
         return
     if json:
         json = json['data']['Character']
-        msg = f"* {json.get('name').get('full')}*(`{json.get('name').get('native')}`) \n"
+        msg = f"*{json.get('name').get('full')}*(`{json.get('name').get('native')}`)\n"
         description = f"{json['description']}"
         site_url = json.get('siteUrl')
-        char_name = f"{json.get('name').get('full')}"
         msg += shorten(description, site_url)
         image = json.get('image', None)
         if image:
             image = image.get('large')
-            buttons = [[InlineKeyboardButton("Save as Waifu ❣️", callback_data=f"xanime_fvrtchar={char_name}")]]
             update.effective_message.reply_photo(
                 photo=image,
                 caption=msg.replace('<b>', '</b>'),
-                reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN)
         else:
             update.effective_message.reply_text(
-                msg.replace('<b>', '</b>'), reply_markup=InlineKeyboardMarkup(buttons), parse_mode=ParseMode.MARKDOWN)
+                msg.replace('<b>', '</b>'), parse_mode=ParseMode.MARKDOWN)
 
 
 @run_async
-@typing_action
-def manga(update, context):
+def manga(update: Update, context: CallbackContext):
     message = update.effective_message
     search = message.text.split(' ', 1)
     if len(search) == 1:
@@ -343,7 +327,6 @@ def manga(update, context):
         msg = msg[:-2]
         info = json['siteUrl']
         buttons = [[InlineKeyboardButton("More Info", url=info)]]
-        buttons += [[InlineKeyboardButton("📕 Add To Read List", callback_data=f"xanime_manga={title}")]]
         image = json.get("bannerImage", False)
         msg += f"_{json.get('description', None)}_"
         if image:
@@ -367,8 +350,7 @@ def manga(update, context):
 
 
 @run_async
-@typing_action
-def user(update, context):
+def user(update: Update, context: CallbackContext):
     message = update.effective_message
     args = message.text.strip().split(" ", 1)
 
@@ -425,11 +407,13 @@ def user(update, context):
 
     caption += textwrap.dedent(f"""
     *Username*: [{user['username']}]({user['url']})
+
     *Gender*: `{user['gender']}`
     *Birthday*: `{user_birthday_formatted}`
     *Joined*: `{user_joined_date_formatted}`
     *Days wasted watching anime*: `{user['anime_stats']['days_watched']}`
     *Days wasted reading manga*: `{user['manga_stats']['days_read']}`
+
     """)
 
     caption += f"*About*: {about_string}"
@@ -451,8 +435,7 @@ def user(update, context):
 
 
 @run_async
-@typing_action
-def upcoming(update, context):
+def upcoming(update: Update, context: CallbackContext):
     jikan = jikanpy.jikan.Jikan()
     upcoming = jikan.top('anime', page=1, subtype="upcoming")
 
@@ -466,182 +449,8 @@ def upcoming(update, context):
 
     update.effective_message.reply_text(upcoming_message)
 
-@run_async
-def watchlist(update, context):
-    chat = update.effective_chat  
-    user = update.effective_user 
-    message = update.effective_message  
-    watchlist = list(REDIS.sunion(f'anime_watch_list{user.id}'))
-    watchlist.sort()
-    watchlist = "\n• ".join(watchlist)
-    if watchlist:
-        message.reply_text(
-            "{}<b>'s Watchlist:</b>"
-            "\n• {}".format(mention_html(user.id, user.first_name),
-                        watchlist),
-            parse_mode=ParseMode.HTML
-        )
-    else:
-        message.reply_text(
-            "You havn't added anything in your watchlist!"
-        )
-@run_async
-def removewatchlist(update, context):
-    user = update.effective_user 
-    message = update.effective_message 
-    removewlist = message.text.split(' ', 1) 
-    args = context.args
-    query = " ".join(args)
-    if not query:
-        message.reply_text("Please enter a anime name to remove from your watchlist.")
-        return
-    watchlist = list(REDIS.sunion(f'anime_watch_list{user.id}'))
-    removewlist = removewlist[1]
-    
-    if removewlist not in watchlist:
-        message.reply_text(
-            f"<code>{removewlist}</code> doesn't exist in your watch list.",
-            parse_mode=ParseMode.HTML
-        )
-    else:
-        message.reply_text(
-            f"<code>{removewlist}</code> has been removed from your watch list.",
-            parse_mode=ParseMode.HTML
-        )
-        REDIS.srem(f'anime_watch_list{user.id}', removewlist)
 
-@run_async
-def fvrtchar(update, context):
-    chat = update.effective_chat  
-    user = update.effective_user 
-    message = update.effective_message  
-    fvrt_char = list(REDIS.sunion(f'anime_fvrtchar{user.id}'))
-    fvrt_char.sort()
-    fvrt_char = "\n• ".join(fvrt_char)
-    if fvrt_char:
-        message.reply_text(
-            "{}<b>'s Harem:</b>"
-            "\n• {}".format(mention_html(user.id, user.first_name),
-                        fvrt_char),
-            parse_mode=ParseMode.HTML
-        )
-    else:
-        message.reply_text(
-            "You havn't added any waifu in your harem!"
-        )
-        
-@run_async
-def removefvrtchar(update, context):
-    user = update.effective_user 
-    message = update.effective_message 
-    removewlist = message.text.split(' ', 1) 
-    args = context.args
-    query = " ".join(args)
-    if not query:
-        message.reply_text("Please enter a your waifu name to remove from your harem.")
-        return
-    fvrt_char = list(REDIS.sunion(f'anime_fvrtchar{user.id}'))
-    removewlist = removewlist[1]
-    
-    if removewlist not in fvrt_char:
-        message.reply_text(
-            f"<code>{removewlist}</code> doesn't exist in your harem",
-            parse_mode=ParseMode.HTML
-        )
-    else:
-        message.reply_text(
-            f"<code>{removewlist}</code> has been removed from your harem",
-            parse_mode=ParseMode.HTML
-        )
-        REDIS.srem(f'anime_fvrtchar{user.id}', removewlist)
-    
-@run_async
-def readmanga(update, context):
-    chat = update.effective_chat  
-    user = update.effective_user 
-    message = update.effective_message  
-    manga_list = list(REDIS.sunion(f'anime_mangaread{user.id}'))
-    manga_list.sort()
-    manga_list = "\n• ".join(manga_list)
-    if manga_list:
-        message.reply_text(
-            "{}<b>'s Manga Lists:</b>"
-            "\n• {}".format(mention_html(user.id, user.first_name),
-                        manga_list),
-            parse_mode=ParseMode.HTML
-        )
-    else:
-        message.reply_text(
-            "You havn't added anything in your manga list!"
-        )
-        
-@run_async
-def removemangalist(update, context):
-    user = update.effective_user 
-    message = update.effective_message 
-    removewlist = message.text.split(' ', 1) 
-    args = context.args
-    query = " ".join(args)
-    if not query:
-        message.reply_text("Please enter a manga name to remove from your manga list.")
-        return
-    fvrt_char = list(REDIS.sunion(f'anime_mangaread{user.id}'))
-    removewlist = removewlist[1]
-    
-    if removewlist not in fvrt_char:
-        message.reply_text(
-            f"<code>{removewlist}</code> doesn't exist in your manga list.",
-            parse_mode=ParseMode.HTML
-        )
-    else:
-        message.reply_text(
-            f"<code>{removewlist}</code> has been removed from your favorite characters list.",
-            parse_mode=ParseMode.HTML
-        )
-        REDIS.srem(f'anime_mangaread{user.id}', removewlist)
-
-def animestuffs(update, context):
-    query = update.callback_query
-    user = update.effective_user
-    splitter = query.data.split('=')
-    query_match = splitter[0]
-    callback_anime_data = splitter[1] 
-    if query_match == "xanime_watchlist":
-        watchlist = list(REDIS.sunion(f'anime_watch_list{user.id}'))
-        if not callback_anime_data in watchlist:
-            REDIS.sadd(f'anime_watch_list{user.id}', callback_anime_data)
-            context.bot.answer_callback_query(query.id,
-                                                text=f"{callback_anime_data} is successfully added to your watch list.",
-                                                show_alert=True)
-        else:
-            context.bot.answer_callback_query(query.id,
-                                                text=f"{callback_anime_data} is already exists in your watch list!",
-                                                show_alert=True)
-            
-    elif query_match == "xanime_fvrtchar":   
-        fvrt_char = list(REDIS.sunion(f'anime_fvrtchar{user.id}'))
-        if not callback_anime_data in fvrt_char:
-            REDIS.sadd(f'anime_fvrtchar{user.id}', callback_anime_data)
-            context.bot.answer_callback_query(query.id,
-                                                text=f"{callback_anime_data} is successfully added to your favorite character.",
-                                                show_alert=True)
-        else:
-            context.bot.answer_callback_query(query.id,
-                                                text=f"{callback_anime_data} is already exists in your favorite characters list!",
-                                                show_alert=True)
-    elif query_match == "xanime_manga":   
-        fvrt_char = list(REDIS.sunion(f'anime_mangaread{user.id}'))
-        if not callback_anime_data in fvrt_char:
-            REDIS.sadd(f'anime_mangaread{user.id}', callback_anime_data)
-            context.bot.answer_callback_query(query.id,
-                                                text=f"{callback_anime_data} is successfully added to your favorite character.",
-                                                show_alert=True)
-        else:
-            context.bot.answer_callback_query(query.id,
-                                                text=f"{callback_anime_data} is already exists in your favorite characters list!",
-                                                show_alert=True)
-
-def button(update, context):
+def button(update: Update, context: CallbackContext):
     bot = context.bot
     query = update.callback_query
     message = query.message
@@ -676,64 +485,93 @@ def button(update, context):
         else:
             query.answer("You are not allowed to use this.")
 
-def anime_quote():
-    url = "https://animechanapi.xyz/api/quotes/random"
-    response = requests.get(url)
-    # since text attribute returns dictionary like string
-    dic = json.loads(response.text)
-    quote = dic["data"][0]["quote"]
-    character = dic["data"][0]["character"]
-    anime = dic["data"][0]["anime"]
-    return quote, character, anime
+
+def site_search(update: Update, context: CallbackContext, site: str):
+    message = update.effective_message
+    args = message.text.strip().split(" ", 1)
+    more_results = True
+
+    try:
+        search_query = args[1]
+    except IndexError:
+        message.reply_text("Give something to search")
+        return
+
+    if site == "kaizoku":
+        search_url = f"https://animekaizoku.com/?s={search_query}"
+        html_text = requests.get(search_url).text
+        soup = bs4.BeautifulSoup(html_text, "html.parser")
+        search_result = soup.find_all("h2", {'class': "post-title"})
+
+        if search_result:
+            result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKaizoku</code>: \n"
+            for entry in search_result:
+                post_link = "https://animekaizoku.com/" + entry.a['href']
+                post_name = html.escape(entry.text)
+                result += f"• <a href='{post_link}'>{post_name}</a>\n"
+        else:
+            more_results = False
+            result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKaizoku</code>"
+
+    elif site == "kayo":
+        search_url = f"https://animekayo.com/?s={search_query}"
+        html_text = requests.get(search_url).text
+        soup = bs4.BeautifulSoup(html_text, "html.parser")
+        search_result = soup.find_all("h2", {'class': "title"})
+
+        result = f"<b>Search results for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKayo</code>: \n"
+        for entry in search_result:
+
+            if entry.text.strip() == "Nothing Found":
+                result = f"<b>No result found for</b> <code>{html.escape(search_query)}</code> <b>on</b> <code>AnimeKayo</code>"
+                more_results = False
+                break
+
+            post_link = entry.a['href']
+            post_name = html.escape(entry.text.strip())
+            result += f"• <a href='{post_link}'>{post_name}</a>\n"
+
+    buttons = [[InlineKeyboardButton("See all results", url=search_url)]]
+
+    if more_results:
+        message.reply_text(
+            result,
+            parse_mode=ParseMode.HTML,
+            reply_markup=InlineKeyboardMarkup(buttons),
+            disable_web_page_preview=True)
+    else:
+        message.reply_text(
+            result, parse_mode=ParseMode.HTML, disable_web_page_preview=True)
 
 
 @run_async
-def quotes(update: Update, context: CallbackContext):
-    message = update.effective_message
-    quote, character, anime = anime_quote()
-    msg = f"<i>❝{quote}❞</i>\n\n<b>{character} from {anime}</b>"
-    keyboard = InlineKeyboardMarkup(
-        [[InlineKeyboardButton(text="Change", callback_data="change_quote")]]
-    )
-    message.reply_text(
-        msg,
-        reply_markup=keyboard,
-        parse_mode=ParseMode.HTML,
-    )
+def kaizoku(update: Update, context: CallbackContext):
+    site_search(update, context, "kaizoku")
 
 
 @run_async
-def change_quote(update: Update, context: CallbackContext):
-    query = update.callback_query
-    chat = update.effective_chat
-    message = update.effective_message
-    quote, character, anime = anime_quote()
-    msg = f"<i>❝{quote}❞</i>\n\n<b>{character} from {anime}</b>"
-    keyboard = InlineKeyboardMarkup(
-        [[InlineKeyboardButton(text="Change", callback_data="quote_change")]]
-    )
-    message.edit_text(msg, reply_markup=keyboard, parse_mode=ParseMode.HTML)
-
+def kayo(update: Update, context: CallbackContext):
+    site_search(update, context, "kayo")
 
 
 __help__ = """
-✨ *Fetch information about anime, manga or characters from* Anilist.co
+Get information about anime, manga or characters from [AniList](anilist.co).
 
-⚙️ *Available commands:*
- • /detect : reply to an anime GIF / Video / Image for its sauce.
- • /quote: random quotes from anime characters.                              
- • /anime <anime> : returns information about the anime.
- • /airing <anime> : returns anime airing info.
- • /manga <manga> : returns information about the manga.
- • /character <character> : returns information about the character.
- • /user <user> : returns information about a MyAnimeList user.
- • /schedule : returns a list of new anime in the upcoming seasons.
- • /watchlist: to get your saved watchlist.
- • /mangalist: to get your saved manga read list.
- • /mywaifus | characterlist | fcl: to get your favorite characters / waifus list.
- • /removewatchlist | rwl <anime>: to remove a anime from your list.
- • /rfcharacter | rfcl <character>: to remove a character from your list.  
- • /rmanga | rml <manga>: to remove a manga from your list.                                
+*Available commands:*
+
+ • `/anime <anime>`*:* returns information about the anime.
+ • `/character <character>`*:* returns information about the character.
+ • `/manga <manga>`*:* returns information about the manga.
+ • `/user <user>`*:* returns information about a MyAnimeList user.
+ • `/upcoming`*:* returns a list of new anime in the upcoming seasons.
+ • `/kaizoku <anime>`*:* search an anime on animekaizoku.com
+ • `/kayo <anime>`*:* search an anime on animekayo.com
+ • `/airing <anime>`*:* returns anime airing info.
+ • `/imdb` <anime/movie name> *:* get IMDb details of the anime or movie
+
+ ➩ *Anime Fun:*
+ • `/aq` *:* get random anime quotes
+
  """
 
 ANIME_HANDLER = DisableAbleCommandHandler("anime", anime)
@@ -741,43 +579,28 @@ AIRING_HANDLER = DisableAbleCommandHandler("airing", airing)
 CHARACTER_HANDLER = DisableAbleCommandHandler("character", character)
 MANGA_HANDLER = DisableAbleCommandHandler("manga", manga)
 USER_HANDLER = DisableAbleCommandHandler("user", user)
-UPCOMING_HANDLER = DisableAbleCommandHandler("schedule", upcoming)
+UPCOMING_HANDLER = DisableAbleCommandHandler("upcoming", upcoming)
+KAIZOKU_SEARCH_HANDLER = DisableAbleCommandHandler("kaizoku", kaizoku)
+KAYO_SEARCH_HANDLER = DisableAbleCommandHandler("kayo", kayo)
 BUTTON_HANDLER = CallbackQueryHandler(button, pattern='anime_.*')
-WATCHLIST_HANDLER = DisableAbleCommandHandler("watchlist", watchlist)
-MANGALIST_HANDLER = DisableAbleCommandHandler("mangalist", readmanga)
-FVRT_CHAR_HANDLER = DisableAbleCommandHandler(["characterlist","fcl","mywaifus"], fvrtchar)
-REMOVE_WATCHLIST_HANDLER = DisableAbleCommandHandler(["removewatchlist","rwl"], removewatchlist)
-REMOVE_FVRT_CHAR_HANDLER = DisableAbleCommandHandler(["rfcharacter","rfcl"], removefvrtchar)
-REMOVE_MANGA_CHAR_HANDLER = DisableAbleCommandHandler(["rmanga","rml"], removemangalist)
-BUTTON_HANDLER = CallbackQueryHandler(button, pattern='anime_.*')
-ANIME_STUFFS_HANDLER = CallbackQueryHandler(animestuffs, pattern='xanime_.*')
-QUOTE = DisableAbleCommandHandler("quote", quotes)
-CHANGE_QUOTE = CallbackQueryHandler(change_quote, pattern=r"change_.*")
-QUOTE_CHANGE = CallbackQueryHandler(change_quote, pattern=r"quote_.*")
 
 dispatcher.add_handler(BUTTON_HANDLER)
 dispatcher.add_handler(ANIME_HANDLER)
-dispatcher.add_handler(ANIME_STUFFS_HANDLER)
 dispatcher.add_handler(CHARACTER_HANDLER)
 dispatcher.add_handler(MANGA_HANDLER)
 dispatcher.add_handler(AIRING_HANDLER)
 dispatcher.add_handler(USER_HANDLER)
+dispatcher.add_handler(KAIZOKU_SEARCH_HANDLER)
+dispatcher.add_handler(KAYO_SEARCH_HANDLER)
 dispatcher.add_handler(UPCOMING_HANDLER)
-dispatcher.add_handler(WATCHLIST_HANDLER)
-dispatcher.add_handler(MANGALIST_HANDLER)
-dispatcher.add_handler(FVRT_CHAR_HANDLER)
-dispatcher.add_handler(REMOVE_FVRT_CHAR_HANDLER)
-dispatcher.add_handler(REMOVE_MANGA_CHAR_HANDLER)
-dispatcher.add_handler(REMOVE_WATCHLIST_HANDLER)
-dispatcher.add_handler(QUOTE)
-dispatcher.add_handler(CHANGE_QUOTE)
-dispatcher.add_handler(QUOTE_CHANGE)
 
 __mod_name__ = "Anime"
 __command_list__ = [
-    "anime", "manga", "character", "user", "upcoming", "airing"   
+    "anime", "manga", "character", "user", "upcoming", "kaizoku", "airing",
+    "kayo"
 ]
 __handlers__ = [
     ANIME_HANDLER, CHARACTER_HANDLER, MANGA_HANDLER, USER_HANDLER,
-    UPCOMING_HANDLER, BUTTON_HANDLER, AIRING_HANDLER
+    UPCOMING_HANDLER, KAIZOKU_SEARCH_HANDLER, KAYO_SEARCH_HANDLER,
+    BUTTON_HANDLER, AIRING_HANDLER
 ]

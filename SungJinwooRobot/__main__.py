@@ -74,7 +74,7 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-`Hello` [🙋🏻‍](https://telegra.ph/file/cbad2a4725b43314dc340.jpg) `My name is` *KURUMI*
+`Hello` [🙋🏻‍](https://telegra.ph/file/cbad2a4725b43314dc340.jpg) `My name is` *Senku*
 `I'm here to help you manage your groups`. 
 """
 
@@ -407,7 +407,7 @@ def get_help(update: Update, context: CallbackContext):
     if chat.type != chat.PRIVATE:
         if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
             module = args[1].lower()
-            update.effective_message.reply_image(
+            update.effective_message.reply_text(
               KURUMI_IMG, caption=f"Contact me in PM to get help of {module.capitalize()}",
                 reply_markup=InlineKeyboardMarkup(
                     [

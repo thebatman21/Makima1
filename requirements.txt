@@ -56,3 +56,4 @@ youtube-search-python
 PyLyrics
 Intellivoid-SPB
 telegraph
+lyricsgenius

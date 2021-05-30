@@ -74,14 +74,14 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-`Hello` [🙋🏻‍](https://telegra.ph/file/cbad2a4725b43314dc340.jpg) `My name is` *Senku*
+`Hello` [🙋🏻‍](https://telegra.ph/file/5e5379d2fc1e787df9803.jpg) `My name is` *Makima*
 `I'm here to help you manage your groups`. 
 """
 
 buttons = [
     [
         InlineKeyboardButton(
-            text="➕️ Add SENKU TO YOUR GROUP ➕️", url="t.me/Senkubest_bot?startgroup=true"),
+            text="➕️ Add MAKIMA TO YOUR GROUP ➕️", url="t.me/makima_op_bot?startgroup=true"),
     ],
     [
         InlineKeyboardButton(text="🔰ABOUT", callback_data="kurumi_"),
@@ -89,17 +89,17 @@ buttons = [
     ],
     [
         InlineKeyboardButton(
-            text="🚨Support", url="https://t.me/myawesomebot21"),
+            text="🚨Support", url="https://t.me/makimasupport1"),
     ], 
 ]
 
 
 HELP_STRINGS = """
-`Hi.. I'm` [🙋🏻](https://telegra.ph/file/cbad2a4725b43314dc340.jpg)
+`Hi.. I'm`Makima from Chainsaw Man [🙋🏻](https://telegra.ph/file/5e5379d2fc1e787df9803.jpg)
 `Click on the buttons below to know about specific modules..`"""
 
 
-KURUMI_IMG = "https://telegra.ph/file/78a95df585a55187568ee.jpg"
+KURUMI_IMG = "https://telegra.ph/file/5e5379d2fc1e787df9803.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Click here to donate in [Paypal](https://www.paypal.me/zameeljaz)"""
@@ -345,13 +345,13 @@ def kurumi_about_callback(update, context):
     query = update.callback_query
     if query.data == "kurumi_":
         query.message.edit_text(
-            text=""" ℹ️ I'm *Senku*, a powerful group management bot built to help you manage your group easily. 
+            text=""" ℹ️ I'm *Makima*, a powerful group management bot built to help you manage your group easily. 
                  \n❍ I can restrict users.
                  \n❍ I can greet users with customizable welcome messages and set group's rules.
                  \n❍ I have an anti-flood system which will stop users from spamming and flooding the group. 
                  \n❍ I can warn users until they reach max warns, with each predefined actions such as ban, mute, kick, etc.
                  \n❍ I have a note keeping system, blacklists, and even predetermined replies on certain keywords.
-                 \n\nIf you have any question about Senku, let us know at @myawesomebot21 .""",
+                 \n\nIf you have any question about Makima, let us know at @makimasupport1 .""",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
@@ -377,8 +377,8 @@ def Source_about_callback(update, context):
     query = update.callback_query
     if query.data == "source_":
         query.message.edit_text(
-            text=""" Hi..🤗 I'm *Senku*
-                 \nHere is the [Source Code](https://github.com/asadali32117/Senku) .""",
+            text=""" Hi..🤗 I'm *Makima*
+                 \nHere is the [Source Code](https://github.com/thebatman21/MAKIMA) .""",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(

@@ -164,8 +164,8 @@ def kang(update: Update, context: CallbackContext):
                     emojis=sticker_emoji,
                 )
                 msg.reply_text(
-                    f"Sticker successfully added to [pack](t.me/addstickers/{packname})"
-                    + f"\nEmoji is: {sticker_emoji}",
+                    f"Sticker successfully added to your pack."
+                    + f"\nEmoji is: {sticker_emoji}"+ \n[Your Pack](buttonurl://https://t.me/addstickers/{packname})
                     parse_mode=ParseMode.MARKDOWN,
                 )
 
@@ -195,8 +195,8 @@ def kang(update: Update, context: CallbackContext):
                         emojis=sticker_emoji,
                     )
                     msg.reply_text(
-                        f"Sticker successfully added to your pack. [Your Pack](buttonurl://https://t.me/addstickers/{packname})"
-                        + f"\nEmoji is: {sticker_emoji}",
+                        f"Sticker successfully added to your pack."
+                        + f"\nEmoji is: {sticker_emoji}", + \n[Your Pack](buttonurl://https://t.me/addstickers/{packname})
                         parse_mode=ParseMode.MARKDOWN,
                     )
                 elif e.message == "Invalid sticker emojis":
@@ -244,7 +244,7 @@ def kang(update: Update, context: CallbackContext):
                 )
                 msg.reply_text(
                     f"Sticker successfully added to [pack](buttonurl://https://t.me/addstickers/{packname})"
-                    + f"\nEmoji is: {sticker_emoji}",
+                    + f"\nEmoji is: {sticker_emoji}" + \n[Your Pack](buttonurl://https://t.me/addstickers/{packname}) ,
                     parse_mode=ParseMode.MARKDOWN,
                 )
             except TelegramError as e:
@@ -266,7 +266,7 @@ def kang(update: Update, context: CallbackContext):
                         "Sticker successfully added to [pack](buttonurl://t.me/addstickers/%s)"
                         % packname
                         + "\n"
-                        "Emoji is:" + " " + sticker_emoji,
+                        "Emoji is:" + " " + sticker_emoji + \n[Your Pack](buttonurl://https://t.me/addstickers/%s),
                         parse_mode=ParseMode.MARKDOWN,
                     )
                 print(e)
@@ -309,7 +309,7 @@ def kang(update: Update, context: CallbackContext):
             )
             msg.reply_text(
                 f"Sticker successfully added to [pack](buttonurl://t.me/addstickers/{packname})"
-                + f"\nEmoji is: {sticker_emoji}",
+                + f"\nEmoji is: {sticker_emoji}" + \n[Your Pack](buttonurl://https://t.me/addstickers/{packname} ,
                 parse_mode=ParseMode.MARKDOWN,
             )
         except OSError as e:
@@ -342,7 +342,7 @@ def kang(update: Update, context: CallbackContext):
                     + "\n"
                     + "Emoji is:"
                     + " "
-                    + sticker_emoji,
+                    + sticker_emoji + \n[Your Pack](buttonurl://https://t.me/addstickers/%s) ,
                     parse_mode=ParseMode.MARKDOWN,
                 )
             elif e.message == "Invalid sticker emojis":
@@ -353,8 +353,8 @@ def kang(update: Update, context: CallbackContext):
                 msg.reply_text(
                     "Sticker successfully added to [pack](buttonurl://t.me/addstickers/%s)"
                     % packname
-                    + "\n"
-                    "Emoji is:" + " " + sticker_emoji,
+                    + "\n"\n[Your Pack](buttonurl://https://t.me/addstickers/%s) ,
+                    "Emoji is:" + " " + sticker_emoji + ,
                     parse_mode=ParseMode.MARKDOWN,
                 )
             print(e)
@@ -436,7 +436,7 @@ def makepack_internal(
         elif e.message == "Internal Server Error: created sticker set not found (500)":
             msg.reply_text(
                 "Sticker pack successfully created. Get it [here](buttonurl://t.me/addstickers/%s)"
-                % packname,
+                % packname + \n[Your Pack](buttonurl://https://t.me/addstickers/%s) ,
                 parse_mode=ParseMode.MARKDOWN,
             )
         return
@@ -444,7 +444,7 @@ def makepack_internal(
     if success:
         msg.reply_text(
             "Sticker pack successfully created. Get it [here](buttonurl://t.me/addstickers/%s)"
-            % packname,
+            % packname + \n[Your Pack](buttonurl://https://t.me/addstickers/%s) ,
             parse_mode=ParseMode.MARKDOWN,
         )
     else:

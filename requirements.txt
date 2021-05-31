@@ -62,3 +62,4 @@ cloudscraper
 pySmartDL
 hachoir
 pybase64
+validators

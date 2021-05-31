@@ -61,3 +61,4 @@ wget
 cloudscraper
 pySmartDL
 hachoir
+pybase64

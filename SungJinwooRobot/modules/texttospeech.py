@@ -38,7 +38,7 @@ def tts(update, context):
         update.message.reply_voice(speech, quote=False)     
 
 
-TTS_HANDLER = DisableAbleCommandHandler("texttospeech", tts)
+TTS_HANDLER = DisableAbleCommandHandler("tts", tts)
 
 dispatcher.add_handler(TTS_HANDLER)
 
@@ -46,6 +46,6 @@ __handlers__ = [
     TTS_HANDLER
 ]
 __help__ = """
-  • `/texttospeech <text>` :- Converts a text message to a voice message.
+  • `/tts <text>` :- Converts a text message to a voice message.
 """
 __mod_name__ = "TextToSpeech"

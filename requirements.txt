@@ -59,4 +59,5 @@ telegraph
 lyricsgenius
 wget
 cloudscraper
+fontTools
 

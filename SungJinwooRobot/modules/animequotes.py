@@ -22,7 +22,7 @@ from SungJinwooRobot.modules.helper_funcs.extraction import extract_user
 
 @run_async
 
-def animequotes(update: Update, context: CallbackContext):
+def aq(update: Update, context: CallbackContext):
 
     message = update.effective_message
 
@@ -36,7 +36,7 @@ def animequotes(update: Update, context: CallbackContext):
 
 __help__ = """
 
- • `/animequotes`*:* gives random anime quotes
+ • `/aq`*:* gives random anime quotes
 
  
 
@@ -50,7 +50,7 @@ __mod_name__ = "AnimeQuotes"
 
 __command_list__ = [
 
-    "animequotes"
+    "aq"
 
 ]
 

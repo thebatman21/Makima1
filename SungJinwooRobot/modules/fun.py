@@ -256,6 +256,7 @@ __help__ = """
  • `/sanitize`*:* always use this before /pat or any contact
  • `/pat`*:* pats a user, or get patted
  • `/dyk`*:* gives you a anime related fact. NOTE: These facts may contain spoilers
+ • `/qu `*:* make quote of a message
 """
 
 SANITIZE_HANDLER = DisableAbleCommandHandler("sanitize", sanitize)

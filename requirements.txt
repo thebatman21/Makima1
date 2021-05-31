@@ -60,5 +60,6 @@ lyricsgenius
 wget
 cloudscraper
 fontTools
+gtts
 
 

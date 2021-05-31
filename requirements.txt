@@ -58,3 +58,4 @@ Intellivoid-SPB
 telegraph
 lyricsgenius
 wget
+cloudscraper

@@ -1,38 +1,14 @@
-# Thanks to @p_rinc_e
-from pathlib import Path
-import asyncio, time, io, math, os, logging, asyncio, shutil, re, subprocess, json
-from re import findall
-from asyncio import sleep
-from telethon.events import NewMessage
-from telethon.tl.custom import Dialog
-from datetime import datetime as dt
-from pytz import country_names as c_n, country_timezones as c_tz, timezone as tz
-from hachoir.parser import createParser
-import pybase64
-from base64 import b64decode
-from pySmartDL import SmartDL
-from telethon.tl.types import DocumentAttributeVideo, DocumentAttributeAudio
-from telethon import events
-
+import asyncio, time, os, asyncio, json
+from telethon.tl.types import DocumentAttributeAudio
 from SungJinwooRobot.events import register
-from SungJinwooRobot.utils import progress
-from telethon.errors.rpcerrorlist import YouBlockedUserError
-from telethon.tl.functions.messages import ImportChatInviteRequest as Get
-from validators.url import url
-from html import unescape
-from urllib.error import HTTPError
-import bs4
-from bs4 import BeautifulSoup
+from SungJinwooRobot.utlis import progress
 from youtube_dl import YoutubeDL
-
 from youtube_dl.utils import (DownloadError, ContentTooShortError,
 
                               ExtractorError, GeoRestrictedError,
                               MaxDownloadsReached, PostProcessingError,
                               UnavailableVideoError, XAttrMetadataError)
-
 try:
-
    from youtubesearchpython import SearchVideos 
 
 except:
@@ -40,7 +16,7 @@ except:
 	from youtubesearchpython import SearchVideos 
 	pass
 
-@register(pattern="^/song (.*)")
+#@register(pattern="^/song (.*)")
 async def download_video(v_url):
 
     lazy = v_url ; sender = await lazy.get_sender() ; me = await lazy.client.get_me()
@@ -276,11 +252,14 @@ async def download_video(v_url):
         os.remove(f"{rip_data['id']}.mp4")
         await rkp.delete()
 
-
 __help__ = """
- ➩ /song <songname artist(optional)>: uploads the song in it's best quality available
+ *You can either enter just the song name or both the artist and song
+  name. *
 
- ➩ /video <songname artist(optional)>: uploads the video song in it's best quality available
+ - `/song` <songname artist(optional)>: uploads the song in it's best quality available
+ - `/video` <songname artist(optional)>: uploads the video song in it's best quality available
+ - `/lyrics` <song>: returns the lyrics of that song.
+
 """
 
-__mod_name__ = "SONGS"
+__mod_name__ = "Music"

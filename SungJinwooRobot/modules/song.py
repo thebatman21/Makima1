@@ -1,7 +1,7 @@
 import asyncio, time, os, asyncio, json
 from telethon.tl.types import DocumentAttributeAudio
 from SungJinwooRobot.events import register
-from SungJinwooRobot.utlis import progress
+from SungJinwooRobot.utils import progress
 from youtube_dl import YoutubeDL
 from youtube_dl.utils import (DownloadError, ContentTooShortError,
 

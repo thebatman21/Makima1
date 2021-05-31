@@ -63,3 +63,4 @@ pySmartDL
 hachoir
 pybase64
 validators
+youtube_search

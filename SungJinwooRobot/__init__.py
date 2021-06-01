@@ -4,7 +4,6 @@ import sys
 import asyncio
 import time
 import spamwatch
-from redis import StrictRedis
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from pyrogram import Client, errors
 from aiogram import Bot, Dispatcher, types
@@ -119,7 +118,6 @@ if ENV:
     LASTFM_API_KEY = os.environ.get("LASTFM_API_KEY", None)
     API_WEATHER = os.environ.get("API_OPENWEATHER", None)
     WALL_API = os.environ.get("WALL_API", None)
-    REDIS_URL = os.environ.get("REDIS_URL")
     SUPPORT_CHAT = os.environ.get("SUPPORT_CHAT", None)
     SPAMWATCH_SUPPORT_CHAT = os.environ.get("SPAMWATCH_SUPPORT_CHAT", None)
     SPAMWATCH_API = os.environ.get("SPAMWATCH_API", None)
@@ -220,21 +218,10 @@ if not SPAMWATCH_API:
 else:
     sw = spamwatch.Client(SPAMWATCH_API)
 
-      
-REDIS = StrictRedis.from_url(REDIS_URL,decode_responses=True)
-try:
-    REDIS.ping()
-    LOGGER.info("Your redis server is now alive!")
-except BaseException:
-    raise Exception("Your redis server is not alive, please check again.")
-    
-finally:
-   REDIS.ping()
-   LOGGER.info("Your redis server is now alive!")
-
 
 updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
 telethn = TelegramClient("SungJinwoo", API_ID, API_HASH)
+pbot = Client("SenkuPyro", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 pgram = Client("SungJinwooRobot", api_id=API_ID, api_hash=API_HASH, bot_token=TOKEN)
 mongo_client = MongoClient(MONGO_DB_URI)
 db = mongo_client.SungJinwooRobot

@@ -165,7 +165,7 @@ def shrug(update: Update, context: CallbackContext):
 
 
 @run_async
-def dyk(update: Update, context: CallbackContext):
+def anifact(update: Update, context: CallbackContext):
     update.effective_message.reply_text(random.choice(fun_strings.DYK_STRINGS))
 
 
@@ -255,7 +255,7 @@ __help__ = """
  • `/weebify <text>`*:* returns a weebified text
  • `/sanitize`*:* always use this before /pat or any contact
  • `/pat`*:* pats a user, or get patted
- • `/dyk`*:* gives you a anime related fact. NOTE: These facts may contain spoilers
+ • `/anifact`*:* gives you a anime related fact. NOTE: These facts may contain spoilers
  • `/qu `*:* make quote of a message
 """
 
@@ -272,7 +272,7 @@ DECIDE_HANDLER = DisableAbleCommandHandler("decide", decide)
 TABLE_HANDLER = DisableAbleCommandHandler("table", table)
 SHOUT_HANDLER = DisableAbleCommandHandler("shout", shout)
 WEEBIFY_HANDLER = DisableAbleCommandHandler("weebify", weebify)
-DYK_HANDLER = DisableAbleCommandHandler("dyk", dyk)
+ANIFACT_HANDLER = DisableAbleCommandHandler("anifact", anifact)
 
 dispatcher.add_handler(WEEBIFY_HANDLER)
 dispatcher.add_handler(SHOUT_HANDLER)
@@ -287,12 +287,12 @@ dispatcher.add_handler(BLUETEXT_HANDLER)
 dispatcher.add_handler(RLG_HANDLER)
 dispatcher.add_handler(DECIDE_HANDLER)
 dispatcher.add_handler(TABLE_HANDLER)
-dispatcher.add_handler(DYK_HANDLER)
+dispatcher.add_handler(ANIFACT_HANDLER)
 
 __mod_name__ = "Fun"
 __command_list__ = [
     "runs", "slap", "roll", "toss", "shrug", "bluetext", "rlg", "decide",
-    "table", "pat", "sanitize", "shout", "weebify", "dyk"
+    "table", "pat", "sanitize", "shout", "weebify", "anifact"
 ]
 __handlers__ = [
     RUNS_HANDLER, SLAP_HANDLER, PAT_HANDLER, ROLL_HANDLER, TOSS_HANDLER,

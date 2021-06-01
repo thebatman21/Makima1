@@ -4,6 +4,7 @@ import sys
 import asyncio
 import time
 import spamwatch
+from redis import StrictRedis
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from pyrogram import Client, errors
 from aiogram import Bot, Dispatcher, types

@@ -166,7 +166,7 @@ def shrug(update: Update, context: CallbackContext):
 
 @run_async
 def anifact(update: Update, context: CallbackContext):
-    update.effective_message.reply_text(random.choice(fun_strings.DYK_STRINGS))
+    update.effective_message.reply_text(random.choice(fun_strings.ANIFACT_STRINGS))
 
 
 @run_async

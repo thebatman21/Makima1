@@ -61,5 +61,6 @@ wget
 cloudscraper
 fontTools
 gtts
+redis
 
 

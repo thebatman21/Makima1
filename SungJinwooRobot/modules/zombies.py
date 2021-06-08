@@ -1,4 +1,3 @@
-
 import asyncio
 from asyncio import sleep
 
@@ -113,4 +112,9 @@ async def zombies(event):
 
     await cleaning_zombies.edit(del_status)
 
-    
+__help__ = """
+  **For Admins**
+  • `/zombies` :- searches deleted accounts
+  • `/zombies clean` :- removes deleted accounts from the group.
+"""
+__mod_name__ = "Zombies"

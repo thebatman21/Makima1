@@ -11,7 +11,7 @@ from telegram import ChatPermissions, ParseMode, Update
 from telegram.error import BadRequest
 from telegram.ext import CallbackContext, run_async
 
-GIF_ID = 'CgACAgQAAx0CSVUvGgAC7KpfWxMrgGyQs-GUUJgt-TSO8cOIDgACaAgAAlZD0VHT3Zynpr5nGxsE'
+GIF_ID = 'CgACAgQAAx0CUrL8UQACAqxgwLhc6IyWyv3TR0pMh8nX8rI98AACaAgAAlZD0VFAnnfbccd8QB8E'
 
 
 @run_async

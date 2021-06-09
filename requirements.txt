@@ -63,5 +63,6 @@ fontTools
 gtts
 redis
 asyncio
+cv2
 
 

@@ -100,6 +100,7 @@ HELP_STRINGS = """
 
 
 KURUMI_IMG = "https://telegra.ph/file/5e5379d2fc1e787df9803.jpg"
+MAKIMASTART = "https://telegra.ph/file/3c025458adaaa4e990437.mp4"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Click here to donate in [Paypal](https://www.paypal.me/zameeljaz)"""
@@ -211,6 +212,8 @@ def start(update: Update, context: CallbackContext):
                 timeout=60,
             )
     else:
+        update.effective_message.reply_video(
+                MAKIMASTART)
         update.effective_message.reply_text(
             "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>"
             .format(uptime),

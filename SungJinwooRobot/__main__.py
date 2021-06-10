@@ -74,8 +74,8 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-`Hello` [🙋🏻‍](https://telegra.ph/file/5e5379d2fc1e787df9803.jpg) `My name is` *Makima*
-`I'm here to help you manage your groups`. 
+*Hey there* [!](https://telegra.ph/file/5e5379d2fc1e787df9803.jpg) {} . *I am Makima, A Public Saftey Devil Hunter.*
+*I can help you in managing your groups.*
 """
 
 buttons = [
@@ -205,8 +205,12 @@ def start(update: Update, context: CallbackContext):
                 IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
 
         else:
+            first_name = update.effective_user.first_name
             update.effective_message.reply_text(
-                PM_START_TEXT,
+                PM_START_TEXT.format(
+                    escape_markdown(first_name),
+                parse_mode=ParseMode.MARKDOWN,
+                disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
                 timeout=60,

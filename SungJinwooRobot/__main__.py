@@ -210,7 +210,6 @@ def start(update: Update, context: CallbackContext):
                 PM_START_TEXT.format(
                     escape_markdown(first_name)),
                 parse_mode=ParseMode.MARKDOWN,
-                disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup(
                 [
     [

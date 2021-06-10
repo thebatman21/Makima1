@@ -211,10 +211,22 @@ def start(update: Update, context: CallbackContext):
                     escape_markdown(first_name)),
                 parse_mode=ParseMode.MARKDOWN,
                 disable_web_page_preview=True,
-                reply_markup=InlineKeyboardMarkup(buttons),
-                parse_mode=ParseMode.MARKDOWN,
-                timeout=60,
-            )
+                reply_markup=InlineKeyboardMarkup(
+                [
+    [
+        InlineKeyboardButton(
+            text="➕️ Add MAKIMA TO YOUR GROUP ➕️", url="t.me/makima_op_bot?startgroup=true"),
+    ],
+    [
+        InlineKeyboardButton(text="🔰ABOUT", callback_data="kurumi_"),
+        InlineKeyboardButton(text=" ⚙COMMANDS", callback_data="help_back"),
+    ],
+    [
+        InlineKeyboardButton(
+            text="🚨Support", url="https://t.me/makimasupport1"),
+    
+   ]]))
+    
     else:
         update.effective_message.reply_video(
                 MAKIMASTART)

@@ -33,7 +33,7 @@ from SungJinwooRobot import BOT_ID
 from SungJinwooRobot.db.mongo_helpers.aichat import add_chat, get_session, remove_chat
 from SungJinwooRobot.function.inlinehelper import arq
 from SungJinwooRobot.function.pluginhelpers import admins_only, edit_or_reply
-from SungJinwooRobot.services.pyrogram import pbot as senku
+from SungJinwooRobot.services.pyrogram import pbot as makima
 
 
 translator = google_translator()

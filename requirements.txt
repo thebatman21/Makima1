@@ -63,6 +63,7 @@ fontTools
 gtts
 redis
 asyncio
+google_trans_new
 
 
 

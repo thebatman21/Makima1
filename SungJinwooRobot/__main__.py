@@ -214,11 +214,11 @@ def start(update: Update, context: CallbackContext):
                 [
     [
         InlineKeyboardButton(
-            text="➕️ Add MAKIMA TO YOUR GROUP ➕️", url="t.me/makima_op_bot?startgroup=true"),
+            text="Add Me in Your Group✅", url="t.me/makima_op_bot?startgroup=true"),
     ],
     [
-        InlineKeyboardButton(text="🔰ABOUT", callback_data="kurumi_"),
-        InlineKeyboardButton(text=" ⚙COMMANDS", callback_data="help_back"),
+        InlineKeyboardButton(text="Info🔍", callback_data="kurumi_"),
+        InlineKeyboardButton(text=" Help⁉️", callback_data="help_back"),
     ],
     [
         InlineKeyboardButton(
